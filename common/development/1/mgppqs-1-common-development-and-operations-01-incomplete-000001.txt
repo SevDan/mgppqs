@@ -263,6 +263,122 @@ There is no way to build good, reliable and controlled architecture over uncontr
 
 4. Code Quality
 
+Code Quality is the cheapest parameter that affects system stability and product quality.
+Of course, code quality in main is a subjective metric that cannot be measured exactly. 
+But code quality is a internal quality (as Martin Fowler defined) and it exists. 
+Developers with good experience can said "that code is bad" and "that code is good", sometimes they have arguments for their opinion. 
+So, industry has some methods to manage and improve code quality.
+
+Code Quality depends on developers experience and qualification. So, if you want to improve it, you should start from candadate selection processes.
+You can invite external consultant for that job, but it cost so much. 
+Maybe, you should improve your test tasks, interview questions, CV selection process or correct your offer (good developers cost good money).
+
+Second thing is onboarding process, guidelines and growing up provisioning. 
+You should get at least code style guidelines and common documentation for your team mates.
+
+Finally, code quality depends on development process.
+
+If you want to improve code quality, you should monitore development process like your system. 
+You cant correctly change development process with actual and complete feedback. How many steps in development you have? 
+How to change some features? Where documentation placed? Who changes it? How your development process reacts on bugs & troubles in production?
+There are a lot of aspects of code quality management and if you want to do it, you should read familiar papers and books (as "Code Complete" by Steven C. McConnell, "Clean Code" by Robert Martin, "Refactoring" by Martin Fowler etc.). In this standard we pay attention only on the some aspects of code quality.
+
+4.1. Linters & Automatization
+
+If you have code style guides already, you may think about automate code verification for style guides conforimity.
+So, you can do it with CI/CD and some plugins & tools (as checkstyle). In addition, you can add linters that will run static analysis on your code and prevent bugs as soon as posible. Install and configure it will be cheaper than missed troubles and fix it in hot fixes. 
+
+You should configure your linters to give not so much errors (otherwise developers will be just ignore it). Step by step you can increase inspections counts and improve your codebase.
+
+You should automate your unit tests running, but some legacy solutions have no ability to do it (maybe you should create your own product to do it, if you depends on legacy software?).
+
+4.2. Code Review process
+
+All good developers should use code review in their development process. Code Review is a process when someone else will check your merge (pull) request before accept changes. If you have only one developer, you can do code review with manager/tester. Or you can do code review in one day after create merge request.
+
+You should create small commits & small merge request if you want to get maximum benefits from review process. Reviewer should analyze whole solution from design to implementation, so big changes will be big problem and reviewer can miss some troubles.
+
+4.3. External Consulting
+
+Sometime to analyse and improve your code quality you can invite some external consultant and do processes audit, get recommendations or courses for your developers. 
+It can be helpful in long distance but it cannot help you with current problems.
+
+The best way to transfer experience with other teams is communicate on conferences & meetups and communities. 
+In the other hand, to improve some competence, you have to buy special courses/books/lectures.
+
+4.4. Software Testing (QA)
+
+Software Testing is a key process of product quality maintanance. 
+You should dedicate Quality Assurance Department and build good processes for testing and quality verification.
+
+You should build testing process over all other development processes (from requirements collection to release delivery).
+If you hire good Quality Assurance Engineer, he can save you a lot of money and reputation.
+
+Pay attention for next Quality Assurance details:
+1. QA should have direct communication with development department, management, community management
+2. QA should works with documentation and create testing documentation (as test plan, test design, test cases)
+3. QA should works with effective tools (bug reports systems, project managemenet systems, UI testing tools, Game testing tools) - you should automate testing process
+4. QA should spent time mostly on research testing and maintain test documentation & automation scripts (automated documentation) for routine tasks
+
+5. Development Lifecycle
+
+Development lifecycle is a management model of development process. In real life, every development process unique and cannot be fully reproduced in some other situation and some other team. But we have some models that describes keys signs of development.
+
+5.1. Waterfall
+
+Waterfall is incrimental but strict staged lifecycle. You have some dedicated stages and you can walk forward and backward, but mostly you moved in one way.
+
+It has next stages:
+1. Requirements
+2. Design
+3. Implementation
+4. Verification
+5. Maintanance
+
+You can get requirements and move forward to design and implementation, but for some reason back over to requirements collection and again move to design and implementation stages.
+Waterfall model is good for well predictable projects and fits for internal infrastructure & tooling development processes. 
+But it works not so good for bad predictable cases when reaction speed is too important.
+
+5.2. Agile
+
+Agile is a basics principles of software craftmanship. It has a lot of frameworks and approaches that following agile principles (i.e. XP, Scrum etc.)
+
+You should learn about it probably it will be perfect model for your main game product.
+
+Common principles are declared in agile manifesto:
+Individuals and interactions over processes and tools
+Working software over comprehensive documentation
+Customer collaboration over contract negotiation
+Responding to change over following a plan
+
+The main topic of agile for understanding is about flexible and fast reacts on external changes.
+In this standard we will not tell a lot about it, you should read some books and implement your project development by agile because it base for all others quality assurance procedures.
+
+5.3. Other
+
+There are a lot of non software approachs to develop products. For instance, you can use ad hoc scenario (without processes and documentation at all) or use users  driven techniques, but it works bad in game development despite the simplicity.
+
+6. Documentation
+
+Documentation is the most underrated thing. You shouldn't make documents for documents, but you should create and maintain documentation for make processes easier.
+
+Documentation is extremly helpful for Quality Assurance Department. It helps you manage quality, describe processes and product & subprojects state in common language.
+If you have complete and actual documantation, you can use one language for communication, you make onboarding easier and processes transparent.
+
+You shouldn't use too strict format for documents to prevent overcomplication: the best code documentation is a good automated tests suite.
+
+Minimal package of docs: 
+1. Product Documents - describes product mission, goals and roadmap. Contains main info about game as such.
+2. Quality Assurance Documents - test plan, test design, test cases, automated test suites - package of verification & testing process description
+3. Guidelines & Internal information - onboarding documents like wiki, internal processes description, team roles description etc.
+4. User Guides & Manuals - help tips in UI, video & graphics, manuals in forum etc.
+
+6.1. Product Documents
+
+The best way to start product documents is create projects business planning documents (see PMBOK), but if you have no time and wish for it, just start describe main structure of game mechanics in some documents. You can use it in other docs as common info.
+
+-- 6.1. TODO -- 
+
 -- TODO --
 
 7. Criteria
@@ -277,8 +393,15 @@ Grafana : grafana.com
 Prometheus : grafana.com/oss/prometheus
 Rclone : rclone.org 
 Docker : docker.com
+Podman (replacement of docker) : podman.io
 dbciupdater : github.com/SevDan/dbciupdater
 Flyway : flywaydb.org
+checkstyle : checkstyle.org
+
+Agile Manifesto : agilemanifesto.org
+Martin Fowler blog : martinfowler.com
+Joel Spolsky about  leaky abstractions : joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions
+
 -- TODO --
 -- TODO --
  
