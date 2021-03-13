@@ -7,11 +7,12 @@ There are lot of common problems in product lifecycle that may be fatal and prod
 2. Terms
 
 - Quality Assuranse Department - dedicated department or implicit roles of team members who test and monitor product quality.
-- Development Department - dedicated or implicit team members who creates new featers in product (developers, game designers, modellers, event masters etc.)
-- Development Game Project - development project (as in PMBOK) in progress of game creation (before release, first stage of lifecycle)
-- Game Product - ready to use game - the result of Development Game Project, game in production with active users and operations processes
-- Vendor - products/services provider with proprietary specific offer
-- Database - software product/solution that serve data storage & operations
+- Development Department - dedicated or implicit team members who creates new featers in product. (developers, game designers, modellers, event masters etc.)
+- Development Game Project - development project (as in PMBOK) in progress of game creation. (before release, first stage of lifecycle)
+- Game Product - ready to play game - the result of Development Game Project, game in production with active users and operations processes.
+- Vendor - products/services provider with proprietary specific offer.
+- Database - software product/solution that serve data storage & operations.
+- RDBMS - Relational Database Management System - software product that has a lot of functions to work with databases.
 
 3. Preconditions
 
@@ -115,10 +116,62 @@ D. Commons
 6. Financial Profit & Risks
 7. Development Communities
 
-Body:
+		A. Stability
+1. Backups
+Backup is the result of process that provide you way to get system snapshot on previous time. 
+Backups helps you saving your state (data) in fatal cases (i.e. if your server burnt in fire)
+Typically backups are only partial of state and represents system state for some time moment.
+The most common popular are database backups. All modern RDBMS provide built-in mechanisms to backup your databases.
+Another functionality to reliable data storage is replication. But replication cannot replace backuping at all! It's just another factor to make your data safety stored.
+Backuping is a extremely important process for stability product. You must do backups and maintain it.
 
--- TODO --
--- TODO --
+1.1. State
+State of any program is a property of data. Software programs can use state for many processes and store it in other locations.
+The most popular state that needs to be backuped is persisted state (data saved in database and persisted on disk), but there are a lot of cases where other state should be persisted reliable too (i.e. caches, important attachements, documents, sertificates, cryptography keys and other)
+
+In current standard we will describe database state only.
+
+1.2. Frequency & Staling
+If you will do backups too rare it will be invalid. If you will do backups too ofthen it will cost too much to store.
+There is good tradeoff is a flexible model with staling.
+
+You should divide your backups for some categories: archived, long term, short term, warm and save it in different locations (please pay attention at this).
+a) archived - monthly backups saved for always. The best way to put it into s3 cloude archive storage.
+b) long term - weekly backups saved for 6 month (or year). You can put it into object storage too, but maybe you should get more fast storage type.
+c) short term - daily backups saved for 2 weeks (or month). You can put it into your dedicated/virtual server (i.e. some NAS)
+d) warm - backups with hours frequency (from 30 minutes to 2 hours; or 4-8 hours if you have database replication). You should put it in some other server (or same only for cases if you have RAID-1 or better)
+
+You must automate backuping and staling processes. You can use manually backuping only for addition with automatic.
+
+1.3. Distributin & Verifying 
+Backups are not safety stored if it not distributed reliable and not verified. The best way is using automatic backups verification tools (but it can be too difficult or cost too much) - you can automate it with CI/CD scheduling and tests suite, but that process should be maintained by team.
+
+Distribution process has next parts:
+1. Do the backup (without downtime if you can)
+2. Verify backup has no corruption - files has no obvious errors & mismatches. If it's not, send alerts and try to do it again later (not now! it can take damage to perf)
+3. Distribute backup files (i.e. rclone for clouds, rsync for server-to-server)
+4. Verify that distribution was complete successfully. If it's not, send alerts and try to do it again later (not now too)
+
+Verification process:
+1. Download backup into local verificator (operator or automatic tool) storage
+2. Clean local RDBMS
+3. Upload backup into local RDBMS with native or external tools
+4. Run predefined test suites (should be automated or documented accurately!)
+5. If tests passed successfuly, log info into monitoring system about it. If it's not, sends alerts and log details into monitoring system.
+
+1.4. Solutions & Tools
+You can use built-in linux utils for backuping process (rsync, crontab, etc.), but you should control quality and reliable of each components if you do it by yourself. You can't trust to whole system if you can't trust to some system component.
+
+More handly way is to use some ready reliable backbone and customize it for your needs. For instance, you can use CI/CD software as automation backbone (i.e. free Jenkins). You will create your own scripts manually, but it will be more comfortable and small, so you will trust it with bigger probability.  
+
+You can built your own monitoring & alerting system based on free Grafana & Prometheus and integrate it with your messenger manually or use proprietary software instead. See more about it in the other topics.
+
+2. DevOps
+
+DevOps is a modern approach to team collaboration. It all about how to get reliable, stable and trustful software products in modern fast world. Some experts thinks that DevOps is a good addition for agile. We will talk about it from the tool side that can help you build reliability and stabilization processes.
+
+2.1. CI/CD
+Continuous Integration and Continuous Delivery are approaches to fast development changes delivery. It neccessary principle in agile & devops. One of the part of this approach is a tooling. 
 
 7. Criteria
 
@@ -127,6 +180,10 @@ Body:
 
 8. Links, Materials & Attachements
 
+Jenkins CI/CD : jenkins.io
+Grafana : grafana.com
+Prometheus : grafana.com/oss/prometheus
+Rclone : rclone.org 
 -- TODO --
 -- TODO --
  
