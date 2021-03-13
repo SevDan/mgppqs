@@ -46,6 +46,7 @@ A. Stability
 	4.1. Linters & Automatization
 	4.2. Code Review process
 	4.3. External Consulting
+	4.4. Software Testing (QA)
 5. Development Lifecycle
 	5.1. Waterfall
 	5.2. Agile
