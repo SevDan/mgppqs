@@ -12,7 +12,6 @@ There are lot of common problems in product lifecycle that may be fatal and prod
 - Game Product - ready to use game - the result of Development Game Project, game in production with active users and operations processes
 - Vendor - products/services provider with proprietary specific offer
 - Database - software product/solution that serve data storage & operations
-- 
 
 3. Preconditions
 
