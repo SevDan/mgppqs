@@ -93,7 +93,7 @@ C. Critical Information
 	4.3. CQRS
 5. Replication & Reliable Infrastructures
 
-D. Commons
+D. Common Topics
 1. Departments & Intercommunication
 	1.1. Priciples & Delegation
 2. Infrustucture
@@ -114,7 +114,7 @@ D. Commons
 5. Community Management
 	5.1. Product Improvement
 	5.2. Technical Feedback
-	5.3. Strong Little Groups
+	5.3. Strong Little Groups - Reverese Discrimination
 6. Financial Profit & Risks
 7. Development Communities
 
