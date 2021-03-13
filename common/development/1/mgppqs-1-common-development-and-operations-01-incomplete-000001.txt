@@ -1,0 +1,133 @@
+MGPPQS Common Development And Operations Standard #1 v.1
+
+1. Goals
+
+There are lot of common problems in product lifecycle that may be fatal and produce huge financial costs. Next recommendations could be useful for all software development & operations teams.
+
+2. Terms
+
+- Quality Assuranse Department - dedicated department or implicit roles of team members who test and monitor product quality.
+- Development Department - dedicated or implicit team members who creates new featers in product (developers, game designers, modellers, event masters etc.)
+- Development Game Project - development project (as in PMBOK) in progress of game creation (before release, first stage of lifecycle)
+- Game Product - ready to use game - the result of Development Game Project, game in production with active users and operations processes
+- Vendor - products/services provider with proprietary specific offer
+- Database - software product/solution that serve data storage & operations
+- 
+
+3. Preconditions
+
+Next recommendations could be useful for development game projects & game products both and can be implemented as you want
+
+4. Tags
+
+Common, Development, Operations, Project, Product
+
+5. Body 
+
+There are lot of useful recommendations, but that standard contains only main & critical recommendations. You can implement all this or best part only.
+
+Subjects:
+
+A. Stability
+1. Backups
+	1.1. State
+	1.2. Frequency & Staling
+	1.3. Distribution & Verifying
+	1.4. Solutions & Tools
+2. DevOps 
+	2.1. CI/CD
+	2.2. Monitoring & Alerting
+	2.3. Reliability Engineering
+	2.4. Database Maintanence
+3. Stable Architechure
+	3.1. Bad Practices
+	3.2. Legacy Software
+4. Code Quality
+	4.1. Linters & Automatization
+	4.2. Code Review process
+	4.3. External Consulting
+5. Development Lifecycle
+	5.1. Waterfall
+	5.2. Agile
+	5.3. Other
+6. Documentation
+	6.1. Product Documents
+	6.2. QA Documents
+	6.3. Guidelines & Internal information
+	6.4. User Guides & Manuals
+7. Feedback
+	7.1. Support Department
+	7.2. Postmortems
+
+B. Security, Permissions, Access
+1. OWASP & Principles
+2. ISO 27001
+	2.1. Information Security Management
+3. Database Security
+	3.1. Credentials 
+	3.2. Schemes
+4. Authorization & Authentication
+	4.1. Cryptography
+	4.2. Password policy
+	4.3. Leaks & Trusts 
+	4.4. 2 Factor
+5. Audit & Rights
+	5.1. Code Development
+	5.2. External Audit
+6. Access
+	6.1. SSO
+	6.2. Source of Truth
+7. Perimissons
+	7.1. Levels Model
+	7.2. Roles Model
+	7.3. ACL Model
+
+C. Critical Information
+1. Payment Processes
+2. Grant Permissions
+3. Logs & Alerts Policy
+4. Event Sourcing
+	4.1. Events Driven
+	4.2. Source of Trurh
+	4.3. CQRS
+5. Replication & Reliable Infrastructures
+
+D. Commons
+1. Departments & Intercommunication
+	1.1. Priciples & Delegation
+2. Infrustucture
+	2.1. Infrastructure Providers
+	2.2. Internal Tools & Products
+	2.3. Cloud Providers
+	2.4. Vendor Locking
+3. Team Tools & Software
+	3.1. Messangers
+	3.2. Project & Product Management
+	3.3. Bug Reporting
+	3.4. TMS
+	3.5. WIKI
+4. Marketing Troubleshoting
+	4.1. Aggressive Strategies
+	4.2. Good Reputation
+5. Community Management
+	5.1. Product Improvement
+	5.2. Technical Feedback
+	5.3. Strong Little Groups
+6. Financial Profit & Risks
+7. Development Communities
+
+Body:
+
+-- TODO --
+-- TODO --
+
+7. Criteria
+
+-- TODO --
+-- TODO --
+
+8. Links, Materials & Attachements
+
+-- TODO --
+-- TODO --
+ 
