@@ -39,7 +39,6 @@ A. Stability
 	2.2. Monitoring & Alerting
 	2.3. Reliability Engineering
 	2.4. Database Maintanence
-	2.5. VCS
 3. Stable Architechure
 	3.1. Bad Practices
 	3.2. Legacy Software
@@ -107,6 +106,7 @@ D. Commons
 	3.3. Bug Reporting
 	3.4. TMS
 	3.5. WIKI
+	3.6. VCS
 4. Marketing Troubleshoting
 	4.1. Aggressive Strategies
 	4.2. Good Reputation
