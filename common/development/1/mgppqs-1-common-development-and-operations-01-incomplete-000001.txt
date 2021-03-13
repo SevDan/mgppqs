@@ -174,63 +174,91 @@ DevOps is a modern approach to team collaboration. It all about how to get relia
 2.1. CI/CD
 Continuous Integration and Continuous Delivery are approaches to fast development changes delivery. It neccessary principle in agile & devops. One of the part of this approach is a tooling. 
 
-CI tools gives you basics of code quality processes and provide you simple configurable pipelines to automate that processes. You can write your own scripts to easy automate code building, code verifying (with linters, static analysis), code testing (if you write automated test suites for it) and a lot of other features as you need. Of course, as every dedicated product, you should maintain it. But it easy to do, you should change so little part of whole system to change your pipelines. So you can give that work to developers who knowns about code everything.
+CI tools gives you basics of code quality processes and provide you simple configurable pipelines to automate that processes. 
+You can write your own scripts to easy automate code building, code verifying (with linters, static analysis), code testing (if you write automated test suites for it) and a lot of other features as you need. 
+Of course, as every dedicated product, you should maintain it. 
+But it easy to do, you should change so little part of whole system to change your pipelines. 
+So you can give that work to developers who knowns about code everything.
 
-You should build your code in dedicated solution as CI/CD tools to prevent environment dependencies and you should run all changes over build pipeline to prevent untested code. CI/CD tools is not alone, all of DevOps/agile tools should be used toghether, that how tools gives good profit composely (i.e. you can use CI/CD with Docker to provide atomacity buildings and environment delivery)
+You should build your code in dedicated solution as CI/CD tools to prevent environment dependencies and you should run all changes over build pipeline to prevent untested code. 
+CI/CD tools is not alone, all of DevOps/agile tools should be used toghether, that how tools gives good profit composely (i.e. you can use CI/CD with Docker to provide atomacity buildings and environment delivery)
 
 As we said earlier, there is a good idea to automate backuping with CI/CD tools.
 
 2.2. Monitoring & Alerting
 
-Monitoring & Alerting is the most important thing in stability. It provides you feedback about your system & fatal errors. So, it provides you knowlage about your system stability.
+Monitoring & Alerting is the most important thing in stability. It provides you feedback about your system & fatal errors. 
+So, it provides you knowlage about your system stability.
 
-There are lot of monitoring tools that can be used in other cases. You can use Grafana for most cases. It provides simple API for extentions and can be customized to show your information into dashboards.
+There are lot of monitoring tools that can be used in other cases. You can use Grafana for most cases. 
+It provides simple API for extentions and can be customized to show your information into dashboards.
 
-The most improtant principle of monitoring is trust. If your monitoring shows wrong information or contains a lot of noise, you can't trust it. So, you should check that all of counting metrics are actual and complete.
+The most improtant principle of monitoring is trust. 
+If your monitoring shows wrong information or contains a lot of noise, you can't trust it. 
+So, you should check that all of counting metrics are actual and complete.
 
-Monitoring steps side by side with logging. You should create project logging guidelines and take care about trust to logs. Sometimes you should match logs and monitoring data to successfully troubleshooting. So, you should add same timestamp into your logs as you have it in monitoring.
+Monitoring steps side by side with logging. 
+You should create project logging guidelines and take care about trust to logs. 
+Sometimes you should match logs and monitoring data to successfully troubleshooting. 
+So, you should add same timestamp into your logs as you have it in monitoring.
 
-The second behavior of monitoring is alerting. You should push important (and only important!) alerts to your developers/operations/management when fatal troubles happens.
+The second behavior of monitoring is alerting. 
+You should push important (and only important!) alerts to your developers/operations/management when fatal troubles happens.
 
-You can automate it with your corporate messangers (with bots API), emails and SMS-services. Messangers are good and enought for most cases.
+You can automate it with your corporate messangers (with bots API), emails and SMS-services. 
+Messangers are good and enought for most cases.
 
 2.3 Reliability Engineering
 
-Reliability Engineering is a discipline that implements creating reliable systems. You cannot create reliable and stable system without reliability engineering.
+Reliability Engineering is a discipline that implements creating reliable systems. 
+You cannot create reliable and stable system without reliability engineering.
 It means your team should contains one dedicated role of reliability engineer (like SRE) or one of team members should take it over implicitly.
 
-Reliability engineering means explicit system risks management. So, reliability engineer should take care of monitoring, backuping, alerting. He must maintain common stability and reliability processes. As result reliability engineering process should determine risks probability and costs. Maybe you should take all new features under reliability engineering analysis. (depends on your needs)
+Reliability engineering means explicit system risks management. 
+So, reliability engineer should take care of monitoring, backuping, alerting. He must maintain common stability and reliability processes. 
+As result reliability engineering process should determine risks probability and costs. 
+Maybe you should take all new features under reliability engineering analysis. (depends on your needs)
 
-The reliability engineering works with some metrics as SLA, SLO, QoS and some other. If you want to get really reliable and stable product, you should read about it.
+The reliability engineering works with some metrics as SLA, SLO, QoS and some other. 
+If you want to get really reliable and stable product, you should read about it.
 
 2.4. Database Maintanence
 
-If you have RDBMS as database system, you should take care about configs and database features. If you have no DBA role, some of developers/administrators should 
-configure database backuping processes, migration (up and down) processes, replication processes.
+If you have RDBMS as database system, you should take care about configs and database features. 
+If you have no DBA role, some of developers/administrators should configure database backuping processes, migration (up and down) processes, replication processes.
 
-The best way to maintain procedures, functions and database migrations is put all changes into files in your VCS with project. So, every product version will be equipped with right scripts.
+The best way to maintain procedures, functions and database migrations is put all changes into files in your VCS with project. 
+So, every product version will be equipped with right scripts.
 
-The most simplest way to maintain migrations scripts is store it in lexicographical order in format like 'yyyy-MM-dd-number-title.sql' (i.e. '2021-03-13-1-updateUsersTable-1.sql') grouped by folder or not. Some migration tools & frameworks supports that format (i.e. dbciupdater or Flyway) and some supports custom others (i.e. XML defined schema migration)
+The most simplest way to maintain migrations scripts is store it in lexicographical order in format like 'yyyy-MM-dd-number-title.sql' (i.e. '2021-03-13-1-updateUsersTable-1.sql') grouped by folder or not. 
+Some migration tools & frameworks supports that format (i.e. dbciupdater or Flyway) and some supports custom others (i.e. XML defined schema migration)
 
 Database replication is a good feature that can help you with a lot of problems. 
 You can get scalable read load with it and get addition data saving in other servers (in addition with backups). 
 So, in some cases if your master database node will shutted down, one of slave node will be switched to master mode and save your application from downtime.
 
-Some NoSQL database provides you custom features with extraordinally effects. In most cases you will get database without ACID transactions. You should be well-known with your tools.
+Some NoSQL database provides you custom features with extraordinally effects. 
+In most cases you will get database without ACID transactions. You should be well-known with your tools.
 
 3. Stable Architecture
 
-When you projecting your PoC, you should take care of stability and reliability in future. The most popular way in statups is get PoC as ready product and try to improve it. But problems in architecture may destruct all plans.
+When you projecting your PoC, you should take care of stability and reliability in future. 
+The most popular way in statups is get PoC as ready product and try to improve it. But problems in architecture may destruct all plans.
 
 3.1. Bad Practices 
 
-Some projects are hopes on other products. You shouldn't do it. Architecture must be reliable to external problems. For instance, your product should be adaptive for game platforom bugs. It means zero trust to external systems in core business logic (i.e. authorization, payment processing).
+Some projects are hopes on other products. You shouldn't do it. Architecture must be reliable to external problems. 
+For instance, your product should be adaptive for game platforom bugs. 
+It means zero trust to external systems in core business logic (i.e. authorization, payment processing).
 
-A lot of realtime configuration and diffuse state is a problem too. As you know, you should do backups and be available to fast recover from any backup. So, if you cant do it because too much runtime configurations should be saved and restored, you losing your reliability.
+A lot of realtime configuration and diffuse state is a problem too. 
+As you know, you should do backups and be available to fast recover from any backup. 
+So, if you cant do it because too much runtime configurations should be saved and restored, you losing your reliability.
 
 3.2. Legacy Software
 
-If you use legacy software, the best way to build stable product with it is separate it and use as 3rd party software. There is no way to build good, reliable and controlled architecture over uncontrolled legacy products.
+If you use legacy software, the best way to build stable product with it is separate it and use as 3rd party software. 
+There is no way to build good, reliable and controlled architecture over uncontrolled legacy products.
 
 4. Code Quality
 
