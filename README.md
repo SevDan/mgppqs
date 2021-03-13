@@ -6,7 +6,7 @@ Suite of community driven standards that contains recommendations for developmen
 ## Goals
 There are a lot of platforms with easy to start requirements (i.e. SA-MP, CR:MP, SA-MP Mobile, MTA, RAGE MP, FiveM etc.), so a lot of development teams starts projects from Proof of Concept and living with it for a long time until some fatal troubles happend. Some products teams has strict internal rules that helps them get stable products based on internal & shared experience, but many rare problems still exists and may be fatal.
 
-MGPPQS should be used as common shared recommendations for different size teams (from small to big) and must be strict description of best practices for most cases.
+MGPPQS should be used as common shared recommendations for different size teams (from small to big) and must be strict description of the best practices for the most cases.
 
 ## Standards Common Rules
 - Standards can be grouped by folders based on goals, use cases and target spaces.
