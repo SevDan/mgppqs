@@ -38,4 +38,5 @@ You can suggest your documents for implementation in issues.
 Any incomplete documents should be created in dedicated branchs. Main branch should contains only finished & valid standards. Incomplete documents should be marked with '-incomplete.<buildNumber>' suffix (i.e. 'mgppqs-1-common-01-incomplete-00001.pdf'). After finished, document should be renamed without that suffix to be released in final condition.
 
 ## Sertification & Audit
-You can use MGPPQS standards for commercial purpose as sertification, audit, consultancy and other.
+You can use MGPPQS standards for commercial purpose as sertification, audit, consultancy and other. 
+Authors are not responsible for any commerical damage or risks, MGPPQS standards are only advisory in nature.
