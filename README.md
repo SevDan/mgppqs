@@ -24,7 +24,7 @@ MGPPQS should be used as common shared recommendations for different size teams 
 
 ## Localization & Internationalization
 
-Main standards language is English (it means the documents can be used as source of truth), but the community can translate it to any languages.
+The main standards language is English (it means the documents can be used as source of truth), but the community can translate it to any languages.
 
 The most important rule for l10n & i18n is to place documents in the same location & add locale suffixes. For instance, if I have doc 'mgppqs-1-common-standard-01.pdf' in English and I want to translate it to Russian, I should place the translated document in the same directory with the name 'mgppqs-1-common-standard-01-ru.pdf'.
 
