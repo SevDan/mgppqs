@@ -228,7 +228,7 @@ If you want to get really reliable and stable product, you should read about it.
 If you have RDBMS as database system, you should take care about configs and database features. 
 If you have no DBA role, some of developers/administrators should configure database backuping processes, migration (up and down) processes, replication processes.
 
-The best way to maintain procedures, functions and database migrations is put all changes into files in your VCS with project. 
+The best way to maintain procedures, functions and database migrations is put all changes into files in your VCS with project code. 
 So, every product version will be equipped with right scripts.
 
 The most simplest way to maintain migrations scripts is store it in lexicographical order in format like 'yyyy-MM-dd-number-title.sql' (i.e. '2021-03-13-1-updateUsersTable-1.sql') grouped by folder or not. 
