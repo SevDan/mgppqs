@@ -14,6 +14,7 @@ Next recommendations could be useful for all software development & operations t
 - Vendor - products/services provider with proprietary specific offer.
 - Database - software product/solution that serve data storage & operations.
 - RDBMS - Relational Database Management System - software product that has a lot of functions to work with databases.
+- ISMS - Information Security Management System.
 
 3. Preconditions
 
@@ -73,7 +74,7 @@ B. Security, Permissions, Access
 4. Authorization & Authentication
 	4.1. Cryptography
 	4.2. Password policy
-	4.3. Leaks & Trusts 
+	4.3. Leaks & Trust
 	4.4. 2 Factor
 5. Audit & Rights
 	5.1. Code Development
@@ -198,7 +199,7 @@ You can write your own scripts to easy automate code building, code verifying (w
 code testing (if you write automated test suites for it) and a lot of other features as you need. 
 Of course, as every dedicated product, you should maintain it. 
 But it easy to do, you should change so little part of whole system to change your pipelines. 
-So you can give that work to developers who knowns about code everything.
+So you can give that work to developersTrusts who knowns about code everything.
 
 You should build your code in dedicated solution as CI/CD tools to prevent environment dependencies 
 and you should run all changes over build pipeline to prevent untested code. 
@@ -590,7 +591,61 @@ There are some attributes that will be helpful for each database row:
 
 4. Authorization & Authentication
 
--- TODO 4 --
+Authentication is the process of matching actual and expected credentials.
+Authorization is the process of permissions validation and rights realization.
+
+You should organize that processes with all needs that can exists in your product in present and future.
+
+4.1. Cryptography
+
+You must save all sensitive credentials (passwords, keys, codes) in hash projection.
+There are some reliable hashing algorithms you can used for passwords saving with salt: bcrypt, scrypt. 
+But you can use some more strength hashing algorithm if you need it. 
+Of course, hashing should be used on serverside.
+
+You should use reliable channels for credentials communication. (i.e. TLS)
+If your main channels (i.e. data syncronization / streaming) are not safe, you can use temporary tokens for authentication.
+
+You can use cypher algorithms for textual information that sends through unreliable network. 
+It shouldn't be static and must regenerate code parts based on temporary parameters (i.e. time or client hardware).
+
+4.2. Password policy
+
+You must has password policy document. 
+ISO 27001 standard contains information about password policy requirements, so you can use it as reference for password policy.
+
+There are some principles for users and team passwords:
+1. 8 symbols and more
+2. both cases in literals
+3. at least 1 special character
+
+4.3. Leaks & Trust
+
+You must manage leaks. If you give some team member access to sensetive information, there is a leaks probability.
+So, you can manage it with ISMS and serurity office.
+
+You should protect your data with your local low: only legal workers should have access into your production systems.
+Assets security should based on trust management. You can do it with HR management & team management.
+Human trust based on people monitoring, two way feedback and communication.
+There is a risk of social engineering and internal attacks, so you must consider it as risk.
+
+There are useful management procedures that helps you manage trust:
+1. one on one meeting
+2. performance review
+3. competence monitoring
+4. problems review
+
+4.4. 2 Factor
+
+You must provide availability to add 2 factor for authentication.
+You can use Google Authenticator for implement it.
+If technical opportunities allow you identify client device, you can remember it for 15 days at most.
+
+Critical and sensitive information must be protected with two factor authentication, the product critical information specially.
+
+5. Audit & Rights
+
+-- TODO 5 --
 
 -- TODO --
 
