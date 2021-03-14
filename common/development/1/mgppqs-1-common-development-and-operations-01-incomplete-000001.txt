@@ -2,7 +2,8 @@ MGPPQS Common Development And Operations Standard #1 v.1
 
 1. Goals
 
-There are lot of common problems in product lifecycle that may be fatal and produce huge financial costs. Next recommendations could be useful for all software development & operations teams.
+There are lot of common problems in product lifecycle that may be fatal and produce huge financial costs. 
+Next recommendations could be useful for all software development & operations teams.
 
 2. Terms
 
@@ -24,7 +25,8 @@ Common, Development, Operations, Project, Product
 
 5. Body 
 
-There are lot of useful recommendations, but that standard contains only main & critical recommendations. You can implement all this or best part only.
+There are lot of useful recommendations, but that standard contains only main & critical recommendations. 
+You can implement all this or best part only.
 
 Subjects:
 
@@ -66,7 +68,7 @@ B. Security, Permissions, Access
 	2.1. Information Security Management
 3. Database Security
 	3.1. Credentials 
-	3.2. Schemes
+	3.2. Schemas
 	3.3. Some attributes
 4. Authorization & Authentication
 	4.1. Cryptography
@@ -125,12 +127,15 @@ Backup is the result of process that provide you way to get system snapshot on p
 Backups helps you saving your state (data) in fatal cases (i.e. if your server burnt in fire)
 Typically backups are only partial of state and represents system state for some time moment.
 The most common popular are database backups. All modern RDBMS provide built-in mechanisms to backup your databases.
-Another functionality to reliable data storage is replication. But replication cannot replace backuping at all! It's just another factor to make your data safety stored.
+Another functionality to reliable data storage is replication. But replication cannot replace backuping at all! 
+It's just another factor to make your data safety stored.
 Backuping is a extremely important process for stability product. You must do backups and maintain it.
 
 1.1. State
 State of any program is a property of data. Software programs can use state for many processes and store it in other locations.
-The most popular state that needs to be backuped is persisted state (data saved in database and persisted on disk), but there are a lot of cases where other state should be persisted reliable too (i.e. caches, important attachements, documents, sertificates, cryptography keys and other)
+The most popular state that needs to be backuped is persisted state (data saved in database and persisted on disk), 
+but there are a lot of cases where other state should be persisted reliable too 
+(i.e. caches, important attachements, documents, sertificates, cryptography keys and other)
 
 In current standard we will describe database state only.
 
@@ -139,19 +144,22 @@ If you will do backups too rare it will be invalid. If you will do backups too o
 There is good tradeoff is a flexible model with staling.
 
 You should divide your backups for some categories: archived, long term, short term, warm and save it in different locations (please pay attention at this).
-a) archived - monthly backups saved for always. The best way to put it into s3 cloude archive storage.
+a) archived - monthly backups saved for always. The best way to put it into s3 cloud archive storage.
 b) long term - weekly backups saved for 6 month (or year). You can put it into object storage too, but maybe you should get more fast storage type.
 c) short term - daily backups saved for 2 weeks (or month). You can put it into your dedicated/virtual server (i.e. some NAS)
-d) warm - backups with hours frequency (from 30 minutes to 2 hours; or 4-8 hours if you have database replication). You should put it in some other server (or same only for cases if you have RAID-1 or better)
+d) warm - backups with hours frequency (from 30 minutes to 2 hours; or 4-8 hours if you have database replication). 
+You should put it in some other server (or same only for cases if you have RAID-1 or better)
 
 You must automate backuping and staling processes. You can use manually backuping only for addition with automatic.
 
 1.3. Distributing & Verifying 
-Backups are not safety stored if it not distributed reliable and not verified. The best way is using automatic backups verification tools (but it can be too difficult or cost too much) - you can automate it with CI/CD scheduling and tests suite, but that process should be maintained by team.
+Backups are not safety stored if it not distributed reliable and not verified. 
+The best way is using automatic backups verification tools (but it can be too difficult or cost too much) - you can automate it with CI/CD scheduling and tests suite, but that process should be maintained by team.
 
 Distribution process has next parts:
 1. Do the backup (without downtime if you can)
-2. Verify backup has no corruption - files has no obvious errors & mismatches. If it's not, send alerts and try to do it again later (not now! it can take damage to perf)
+2. Verify backup has no corruption - files has no obvious errors & mismatches. 
+If it's not, send alerts and try to do it again later (not now! it can take damage to perf)
 3. Distribute backup files (i.e. rclone for clouds, rsync for server-to-server)
 4. Verify that distribution was complete successfully. If it's not, send alerts and try to do it again later (not now too)
 
@@ -163,27 +171,39 @@ Verification process:
 5. If tests passed successfuly, log info into monitoring system about it. If it's not, sends alerts and log details into monitoring system.
 
 1.4. Solutions & Tools
-You can use built-in linux utils for backuping process (rsync, crontab, etc.), but you should control quality and reliable of each components if you do it by yourself. You can't trust to whole system if you can't trust to some system component.
+You can use built-in linux utils for backuping process (rsync, crontab, etc.), 
+but you should control quality and reliable of each components if you do it by yourself. 
+You can't trust to whole system if you can't trust to some system component.
 
-More handly way is to use some ready reliable backbone and customize it for your needs. For instance, you can use CI/CD software as automation backbone (i.e. free Jenkins). You will create your own scripts manually, but it will be more comfortable and small, so you will trust it with bigger probability.  
+More handly way is to use some ready reliable backbone and customize it for your needs. 
+For instance, you can use CI/CD software as automation backbone (i.e. free Jenkins). 
+You will create your own scripts manually, but it will be more comfortable and small, so you will trust it with bigger probability.  
 
-You can built your own monitoring & alerting system based on free Grafana & Prometheus and integrate it with your messenger manually or use proprietary software instead. See more about it in the other topics.
+You can built your own monitoring & alerting system based on free Grafana & Prometheus and integrate it with your messenger manually or use proprietary software instead. 
+See more about it in the other topics.
 
 2. DevOps
 
-DevOps is a modern approach to team collaboration. It all about how to get reliable, stable and trustful software products in modern fast world. Some experts thinks that DevOps is a good addition for agile. We will talk about it from the tool side that can help you build reliability and stabilization processes.
+DevOps is a modern approach to team collaboration. 
+It all about how to get reliable, stable and trustful software products in modern fast world. 
+Some experts thinks that DevOps is a good addition for agile. 
+We will talk about it from the tool side that can help you build reliability and stabilization processes.
 
 2.1. CI/CD
-Continuous Integration and Continuous Delivery are approaches to fast development changes delivery. It neccessary principle in agile & devops. One of the part of this approach is a tooling. 
+Continuous Integration and Continuous Delivery are approaches to fast development changes delivery. 
+It neccessary principle in agile & devops. One of the part of this approach is a tooling. 
 
 CI tools gives you basics of code quality processes and provide you simple configurable pipelines to automate that processes. 
-You can write your own scripts to easy automate code building, code verifying (with linters, static analysis), code testing (if you write automated test suites for it) and a lot of other features as you need. 
+You can write your own scripts to easy automate code building, code verifying (with linters, static analysis), 
+code testing (if you write automated test suites for it) and a lot of other features as you need. 
 Of course, as every dedicated product, you should maintain it. 
 But it easy to do, you should change so little part of whole system to change your pipelines. 
 So you can give that work to developers who knowns about code everything.
 
-You should build your code in dedicated solution as CI/CD tools to prevent environment dependencies and you should run all changes over build pipeline to prevent untested code. 
-CI/CD tools is not alone, all of DevOps/agile tools should be used toghether, that how tools gives good profit composely (i.e. you can use CI/CD with Docker to provide atomacity buildings and environment delivery)
+You should build your code in dedicated solution as CI/CD tools to prevent environment dependencies 
+and you should run all changes over build pipeline to prevent untested code. 
+CI/CD tools is not alone, all of DevOps/agile tools should be used toghether, 
+that how tools gives good profit composely (i.e. you can use CI/CD with Docker to provide atomacity buildings and environment delivery)
 
 As we said earlier, there is a good idea to automate backuping with CI/CD tools.
 
@@ -227,12 +247,14 @@ If you want to get really reliable and stable product, you should read about it.
 2.4. Database Maintanence
 
 If you have RDBMS as database system, you should take care about configs and database features. 
-If you have no DBA role, some of developers/administrators should configure database backuping processes, migration (up and down) processes, replication processes.
+If you have no DBA role, some of developers/administrators should configure database backuping processes,
+migration (up and down) processes, replication processes.
 
 The best way to maintain procedures, functions and database migrations is put all changes into files in your VCS with project code. 
 So, every product version will be equipped with right scripts.
 
-The most simplest way to maintain migrations scripts is store it in lexicographical order in format like 'yyyy-MM-dd-number-title.sql' (i.e. '2021-03-13-1-updateUsersTable-1.sql') grouped by folder or not. 
+The most simplest way to maintain migrations scripts is store it in lexicographical order in format like 
+'yyyy-MM-dd-number-title.sql' (i.e. '2021-03-13-1-updateUsersTable-1.sql') grouped by folder or not. 
 Some migration tools & frameworks supports that format (i.e. dbciupdater or Flyway) and some supports custom others (i.e. XML defined schema migration)
 
 Database replication is a good feature that can help you with a lot of problems. 
@@ -282,26 +304,37 @@ Finally, code quality depends on development process.
 If you want to improve code quality, you should monitore development process like your system. 
 You cant correctly change development process with actual and complete feedback. How many steps in development you have? 
 How to change some features? Where documentation placed? Who changes it? How your development process reacts on bugs & troubles in production?
-There are a lot of aspects of code quality management and if you want to do it, you should read familiar papers and books (as "Code Complete" by Steven C. McConnell, "Clean Code" by Robert Martin, "Refactoring" by Martin Fowler etc.). In this standard we pay attention only on the some aspects of code quality.
+There are a lot of aspects of code quality management and if you want to do it, 
+you should read familiar papers and books (as "Code Complete" by Steven C. McConnell, "Clean Code" by Robert Martin, "Refactoring" by Martin Fowler etc.). 
+In this standard we pay attention only on some aspects of code quality.
 
 4.1. Linters & Automatization
 
 If you have code style guides already, you may think about automate code verification for style guides conforimity.
-So, you can do it with CI/CD and some plugins & tools (as checkstyle). In addition, you can add linters that will run static analysis on your code and prevent bugs as soon as posible. Install and configure it will be cheaper than missed troubles and fix it in hot fixes. 
+So, you can do it with CI/CD and some plugins & tools (as checkstyle). 
+In addition, you can add linters that will run static analysis on your code and prevent bugs as soon as posible. 
+Install and configure it will be cheaper than missed troubles and fix it in hot fixes. 
 
-You should configure your linters to give not so much errors (otherwise developers will be just ignore it). Step by step you can increase inspections counts and improve your codebase.
+You should configure your linters to give not so much errors (otherwise developers will be just ignore it). 
+Step by step you can increase inspections counts and improve your codebase.
 
-You should automate your unit tests running, but some legacy solutions have no ability to do it (maybe you should create your own product to do it, if you depends on legacy software?).
+You should automate your unit tests running, but some legacy solutions have no ability to do it 
+(maybe you should create your own product to do it, if you depends on legacy software?).
 
 4.2. Code Review process
 
-All good developers should use code review in their development process. Code Review is a process when someone else will check your merge (pull) request before accept changes. If you have only one developer, you can do code review with manager/tester. Or you can do code review in one day after create merge request.
+All good developers should use code review in their development process. 
+Code Review is a process when someone else will check your merge (pull) request before accept changes. 
+If you have only one developer, you can do code review with manager/tester. 
+Or you can do code review in one day after create merge request.
 
-You should create small commits & small merge request if you want to get maximum benefits from review process. Reviewer should analyze whole solution from design to implementation, so big changes will be big problem and reviewer can miss some troubles.
+You should create small commits & small merge request if you want to get maximum benefits from review process. 
+Reviewer should analyze whole solution from design to implementation, so big changes will be big problem and reviewer can miss some troubles.
 
 4.3. External Consulting
 
-Sometime to analyse and improve your code quality you can invite some external consultant and do processes audit, get recommendations or courses for your developers. 
+Sometime to analyse and improve your code quality you can invite some external consultant and do processes audit, 
+get recommendations or courses for your developers. 
 It can be helpful in long distance but it cannot help you with current problems.
 
 The best way to transfer experience with other teams is communicate on conferences & meetups and communities. 
@@ -318,12 +351,15 @@ If you hire good Quality Assurance Engineer, he can save you a lot of money and 
 Pay attention for next Quality Assurance details:
 1. QA should have direct communication with development department, management, community management
 2. QA should works with documentation and create testing documentation (as test plan, test design, test cases)
-3. QA should works with effective tools (bug reports systems, project managemenet systems, UI testing tools, Game testing tools) - you should automate testing process
+3. QA should works with effective tools (bug reports systems, project managemenet systems, UI testing tools, Game testing tools) 
+- you should automate testing process
 4. QA should spent time mostly on research testing and maintain test documentation & automation scripts (automated documentation) for routine tasks
 
 5. Development Lifecycle
 
-Development lifecycle is a management model of development process. In real life, every development process unique and cannot be fully reproduced in some other situation and some other team. But we have some models that describes keys signs of development.
+Development lifecycle is a management model of development process. 
+In real life, every development process unique and cannot be fully reproduced in some other situation and some other team. 
+But we have some models that describes keys signs of development.
 
 5.1. Waterfall
 
@@ -336,7 +372,8 @@ It has next stages:
 4. Verification
 5. Maintanance
 
-You can get requirements and move forward to design and implementation, but for some reason back over to requirements collection and again move to design and implementation stages.
+You can get requirements and move forward to design and implementation, 
+but for some reason back over to requirements collection and again move to design and implementation stages.
 Waterfall model is good for well predictable projects and fits for internal infrastructure & tooling development processes. 
 But it works not so good for bad predictable cases when reaction speed is too important.
 
@@ -353,7 +390,8 @@ Customer collaboration over contract negotiation
 Responding to change over following a plan
 
 The main topic of agile for understanding is about flexible and fast reacts on external changes.
-In this standard we will not tell a lot about it, you should read some books and implement your project development by agile because it base for all others quality assurance procedures.
+In this standard we will not tell a lot about it, you should read some books and implement your project development by agile 
+because it is the base for all others quality assurance procedures.
 
 5.3. Other
 
@@ -453,11 +491,106 @@ Short description of leaks/system fails/ddos attacks will be helpful for your pl
 After troubleshooting you should write public postmortem. 
 You shouldn't avoid of responsibility, postmortem should demonstrate that you get a lesson and next time it never happend.
 
-Concluding, the stability and reliable is about trust: how to build trusted system, how to build trusted processe, how to build trusted products.
+Concluding, the stability and reliable is about trust: how to build trusted system, how to build trusted processes, how to build trusted products.
 
-B. Security, Perimission, Access
+		B. Security, Perimission, Access
 
--- TODO B --
+Security is one of the difficult topic for games development.
+There are balancing and risks definitions problems.
+You should maximize your security process efficiency: simple methods with strict and straightforward rules will give your maximum benefits.
+Avoid of overengineering! 
+There is a trap when you think that difficult systems, rules and processes will give you security, but in you get new vulnerabilities instead.
+
+Remember: security is a process, is not a system snapshot property.
+You must maintain your security processes, principles and rules.
+If you have enought money, maybe you should hire dedicated specialist to do this job.
+
+Remember: security overhead is a vulnerability.
+Security documents should be used just as communication language.
+It's shouldn't take huge overhead for development, operations & business processes.
+
+Cheapness and high efficiency are good security process properties.
+
+1. OWASP & Principles
+
+There are a some simple principles of secure systems design:
+1. Untrusted outer world - all information from outer world should be verified and validated.
+2. Whitelist validation - you should validate data for correctness, not for errors (use white list rules instead of black list rules)
+3. Permissions verifying on end-points - you should verify output data and outer consumer for correct rights.
+4. Data deletion policy - delete only really unneccessary data that cannot be useful in any cases (in error cases too) and mark it in the other cases.
+If you have audit, you probably shouldn't delete data at all.
+5. Logging - you should log all significant actions with data and description information.
+6. Minimize permissions - you should miminize available permissions for users & team members (but remember about zero processes overhead!)
+7. Preventive - security process must prevents attack before it happend.
+
+OWASP - Open Web Application Security Project
+
+OWASP is a complete project with a lot of useful standards, principles, tools and vulnerabilities description.
+You should know about it if you want develop safety and secure software applications.
+OWASP has ASVS standard that can help you design your application.
+
+The most popular OWASP work is vulnerabilities top-10 (at 2020-2021) (owasp.org/www-project-top-ten):
+1. Injection
+2. Broken Authorization
+3. Sensitive Data Exposure
+4. XML External Entities (XXE)
+5. Broken Access Control
+6. Security Misconfiguration
+7. Cross-Site Scription (XSS)
+8. Insecure Deserialization
+9. Using Components with Known Vulnerabilities 
+10. Insufficient Logging & Monitoring
+
+You should read about it all and verify that your system protected from mostly common errors at least.
+
+2. ISO 27001
+There are a lot of security management standards that helps you find good solution for security risks control.
+On of them is a ISO 27001 that describes company security. 
+You can buy that standard or see regional translated free alternatives and get certified if you need it (and you have time and money for certification).
+
+One of the central ISO 27001 point is ISMS (Information Security Management System).
+
+2.1. Information Security Management
+
+ISMS is a compex of processes, tools and rules that helps you manage information security.
+There are a lot of software products compatible with ISO 27001 that provides a lot of useful information security management features.
+
+3. Database Security
+
+Database is the central information storage. So, is the most important to protect database for external attacks to prevent fatal damage.
+You should know your database. If your developers has no experience with it, you should buy them a course or consultancy.
+
+3.1. Credentials
+
+There are many ways how applications would be connected with database.
+For instance, some database provides bypass way. You mustn't use it on production!
+Use password (hash-based) or certificate key way.
+
+You can save your credentials in configuration files or secrets storage (i.e HashiCorp Vault).
+Pay attention: you should use SE Linux or some other Linux security access tools to prevent leaks.
+
+Don't use default / simple credentials for database connect.
+
+3.2. Schemas 
+
+Many RDBMS use public schema as default. It means all information about data structure will be available for each database user.
+You should move private information (as paymants, user information etc.) in dedicated schemes with special rights (i.e. write & read only for payments).
+You can move some information in the other databases. It can be useful for caching, event sourcing modules, dedicated submodules and other.
+
+3.3. Some attributes
+
+There are some attributes that will be helpful for each database row:
+1. Created by - creator name/login/id
+2. Created at - creation timestamp
+3. Updated by - last updater name/login/id
+4. Updated at - last update timestamp
+5. Deleted by - deleter name/login/id
+6. Deleted at - delete timestamp
+7. Version - optimistic locking version
+
+4. Authorization & Authentication
+
+-- TODO 4 --
 
 -- TODO --
 
@@ -468,6 +601,9 @@ B. Security, Perimission, Access
 
 8. Links, Materials & Attachements
 
+Amazon s3 storage service : aws.amazon.com/ru/s3
+Ceph object storage : ceph.io
+OpenStack cloud software : openstack.org (swift component is a object storage)
 Jenkins CI/CD : jenkins.io
 Grafana : grafana.com
 Prometheus : grafana.com/oss/prometheus
@@ -478,10 +614,13 @@ dbciupdater : github.com/SevDan/dbciupdater
 Flyway : flywaydb.org
 checkstyle : checkstyle.org
 OpenProject : openproject.org
+HashCorp Vault (secrets storage) : vaultproject.io
 
 Agile Manifesto : agilemanifesto.org
 Martin Fowler blog : martinfowler.com
 Joel Spolsky about  leaky abstractions : joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions
+OWASP ASVS standard : github.com/OWASP/ASVS
+ISMS Online (ISMS Software) : isms.online
 
 Jesse Schell "The Art of Game Design" : amazon.com/Art-Game-Design-Lenses-Third/dp/1138632058
 Martin Fowler "Refactoring" : martinfowler.com/books/refactoring.html
