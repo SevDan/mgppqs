@@ -56,7 +56,7 @@ A. Stability
 	6.2. QA Documents
 	6.3. Guidelines & Internal information
 	6.4. User Guides & Manuals
-7. Feedback
+7. Technical Feedback
 	7.1. Support Department
 	7.2. Postmortems
 
@@ -67,6 +67,7 @@ B. Security, Permissions, Access
 3. Database Security
 	3.1. Credentials 
 	3.2. Schemes
+	3.3. Some attributes
 4. Authorization & Authentication
 	4.1. Cryptography
 	4.2. Password policy
@@ -377,7 +378,86 @@ Minimal package of docs:
 
 The best way to start product documents is create projects business planning documents (see PMBOK), but if you have no time and wish for it, just start describe main structure of game mechanics in some documents. You can use it in other docs as common info.
 
--- 6.1. TODO -- 
+You should describe all systems end-points and high level data flow ways. It can be helpful for security purposes.
+There are some specific games documentation types, described in Jesse Shell book "The Art of Game Design":
+
+1. Game Design Overview - main goals and game functional. Big picture of whole product.
+2. Detailed Design Document - detailed description of all game mechanics, interfaces. It can help you compose features easier. The most helful for Game Development Projects.
+3. Story (or Stories) Overview - short description for each quests / events. It can be helpful for external workers (copywriters, external game designers, modellers etc.)
+4. Technical Design Document - architecture, technical design documents. You should have high level view of techical design and trade-off to prevent critical mismatches.
+5. Pipeline Overview - document that describes integration building. For instance, how GUI designer can change button color. In small teams it can be redundant, but helpful for big. The main rule for documentation that is communication tool (if you have 1 designer and 1 developer, maybe they should discuss problems directly?)
+6. System Limitations - description of tecnical limitations. 
+It should contains user system requirements & limits for graphics, modells and game objects. 
+You must know how many concurrent players can play online, how many users can stay at one area without problems, how many cars you can put for PD in your game.
+You should use profiling tools & loading and stess testing for different workloads to get this information.
+7. Art Bible - high level guidelines, overview and interface layouts.
+8. Concept Art Overview - documents for investors, future players and stakeholders, Development Game Project specific document.
+9. Game Budget - internal financial document. It can be critical neccessary for risks analysis. You should describe financial limitations, expectations of your product to do correct balanced decisions.
+10. Assets Tracker - your agile burntdown charts. Progress indicator, that helps monitor your development processes.
+11. Product Schedule - time expectations & responsibility matrix. You can have it in your project management system (i.e. OpenProject)
+12. Story Bible - main story description (if you have it) that helps coordinate quests with main story.
+13. Script - dialogs and logic description for NPC in quests.
+14. Game tutorial and manual - common info about game and how to's. The Wiki is a good candidate for it.
+15. Game walth-throught - you should write one simple walth-throught for each your quests. It helps get information about UX.
+
+6.2. QA Documents
+
+Quality Assuranse Department should create specific documentation to provide complete information about quality.
+See ISO/IEC 29119 to get more info about test documentation.
+
+There are next types of QA docs:
+1. Test plan - overview of testing strategy. Provides information about QA desicions and trade-offs. You should change it if you think that your QA Department works not enought effective.
+2. Test design - the tree (or big picture) of current test cases state. That document provide information about current QA state.
+3. Test cases - concrete test cases that can be described in text or program code (that much better).
+
+6.3. Guidelines & Internal information
+
+You should provide good complete information for your team to get effective high quality work. 
+Pay attention on onboarding process, code guidelines, support scripts, responsibility matrix.
+Internal documents should describe fatal troubles and action plan for difficul situations.
+
+6.4. User Guides & Manuals
+
+We have already Game tutorian and manual in our product documentation. But it can be too anemic and dry (it should be). 
+The second part of user guides is practical guides that focused to players experience, not for product as such.
+You should add help tips into user guidelines, short & effective video guides and forum manuals.
+
+There is a good practice to get users feedback about user guides. You must maintain it as well as you can.
+The worst nightmare is user guidelines missmatch (when your guides outdated and leads users to fail path).
+
+7. Technical Feedback
+
+Technical Feedback is all about users trust. How you respond your users about problems? Do you trust them?
+
+You should provide complete but secured information about system state and helps users if they have some problems.
+There is a good idea to show users some systems state monitoring (in anemic and simple UI of course, you shouldn't give them your Grafana dashboards).
+
+7.1. Support Department
+
+Your support department typically will provide two services: game help and technical help. You should minimize game help by writing good user guides, automatic helpers, complete F.A.Q., community guides etc. But you shouldn't give up technical support.
+
+There are some rules for good technical support:
+1. It should be easy to contact technical support. (for user)
+2. It should be easy to filter, group and aggregate tickets. (for support engineer)
+3. Your technical support should reacts as soon as can. (max time 24h, average max 30m)
+4. It should be available to alert development department from technical support in fatal cases. (for support engineer)
+5. Your technical support should create correct, complete bug reports as QA.
+6. Every bug reports from technical support should be described in product documentation (as test case or risks).
+
+7.2. Postmortems
+
+Sometimes your system failed despite of all bariers. If you want to have devoted audience, you should trust them your mistakes.
+When fatal troubles happens, reacts on in as fast as you can. 
+Short description of leaks/system fails/ddos attacks will be helpful for your players to manage their time and take some actions as soon as posible.
+
+After troubleshooting you should write public postmortem. 
+You shouldn't avoid of responsibility, postmortem should demonstrate that you get a lesson and next time it never happend.
+
+Concluding, the stability and reliable is about trust: how to build trusted system, how to build trusted processe, how to build trusted products.
+
+B. Security, Perimission, Access
+
+-- TODO B --
 
 -- TODO --
 
@@ -397,10 +477,17 @@ Podman (replacement of docker) : podman.io
 dbciupdater : github.com/SevDan/dbciupdater
 Flyway : flywaydb.org
 checkstyle : checkstyle.org
+OpenProject : openproject.org
 
 Agile Manifesto : agilemanifesto.org
 Martin Fowler blog : martinfowler.com
 Joel Spolsky about  leaky abstractions : joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions
+
+Jesse Schell "The Art of Game Design" : amazon.com/Art-Game-Design-Lenses-Third/dp/1138632058
+Martin Fowler "Refactoring" : martinfowler.com/books/refactoring.html
+Rober Martin "Clean Code" : amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882
+Steven C. McConnell "Code Complete" : amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670
+PMI PMBOK : pmi.org/pmbok-guide-standards 
 
 -- TODO --
 -- TODO --
