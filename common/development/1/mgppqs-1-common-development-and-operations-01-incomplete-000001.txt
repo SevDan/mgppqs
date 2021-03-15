@@ -15,6 +15,7 @@ Next recommendations could be useful for all software development & operations t
 - Database - software product/solution that serve data storage & operations.
 - RDBMS - Relational Database Management System - software product that has a lot of functions to work with databases.
 - ISMS - Information Security Management System.
+- SSO - Single Sign-On
 
 3. Preconditions
 
@@ -79,7 +80,7 @@ B. Security, Permissions, Access
 5. Audit & Rights
 	5.1. Code Development
 	5.2. External Audit
-6. Access
+6. Other Access Ways
 	6.1. SSO
 	6.2. Source of Truth
 7. Perimissons
@@ -645,7 +646,96 @@ Critical and sensitive information must be protected with two factor authenticat
 
 5. Audit & Rights
 
--- TODO 5 --
+You should verify your full system security with some determenistic frequency.
+It means audit and granted rights validation.
+
+Audit process requires complete information logging about sensitive data events.
+It means you should implement some constraints in architecture and product to provide reliable reports.
+
+You should save settings changes events, server access logs, rights grants and permissions changes. 
+
+5.1. Code Development
+
+Code development is the main source of backdoors.
+To protect system from collusion attacks, you should use some procedures that minimize risks:
+
+1. Cross review - if you have several development teams, developers from different teams should review foreign code sometimes.  
+2. Internal rotation - good software developers must be capable of several product domains. 
+You can rotate team members, it prevents backdoors and can give your developer new experience.
+
+5.2. External Audit 
+
+Some standards & certification centers requires external audit (i.e. ISO 27001) to prove your requirements conformity.
+Don't overuse it and be careful with certification overheads.
+
+Remember that processes overhead is a potential vulnerability.
+In addition, every information sharing has leaks probability, so external audit can just worsen the situation.
+
+6. Other Access Ways
+
+You can use some specific access ways for authentication & authorization. (SSO, OpenID, OAuth etc.)
+Some tools provides additional features and may be helful for audit, risk management, resources routing and other.
+
+6.1. SSO
+
+The Single Sign-On provides you single point for authroization & authentication.
+You can implement your own SSO software (as service) or use ready solutions as LDAP.
+
+SSO is extremely helpful for internal workers rights management. 
+If you use SSO, you can turn off accounts in one place (i.e. for dismissal of employee) and be sure that you don't forget some services or resources.
+
+Another way to use SSO is provide your players ability to sign via external services. (as Google, Facebook etc.)
+You have to use OAuth protocol in that case (pay attention on OAuth versions, is fully incompatible)
+
+6.2. Source of Truth
+
+If you have resources and assets you have to maintain access for all of them.
+Sometimes you have to share a lot of passwords, keys, certificates and other access information.
+
+If you can automate all your processes and no human need has access for resources & services, you can use only secrets storage solutions. (i.e. HaskiCorp Vault) 
+In the other cases you must use corporate level passwords managers (i.e. Bitwarden & bitwarden_rs - rust implementation (but without audit certification!)).
+
+7. Permissions
+
+Some system components & services may serves multiple type clients.
+So, you can choose different strategies for granting permissions.
+
+7.1. Levels Model
+
+Levels Model is a popular way for grant permissions in some simple situations. (for in-game guilds, clans, helpers and so on)
+That model assumes permissions splitting for levels. Each permissions level contains previous and expand with some (or no one) addition permissions.
+
+In theory, if your permissons can be naturally splitted by levels, you should use that model.
+Levels model is a simple abstraction with easy implementation and management.
+
+But permissions in real applications mostly has no natural order because represents access for ortohonal functionals.
+For instance: players banning, game objects manipulation, events & actions, reports handling, players spectation are all ortohonal functional without correlation between each other.
+
+7.2. Roles Model
+
+There is a good idea to group some permissions in bucket and name it with adequate name.
+You should use that model for most cases because is the best reflects the real world.
+
+There are some different srategies of permissions groupping:
+1. Atomic - one role for one functional - too annoying and noiseful. 
+(i.e. banning, spectating, game events, reports handling etc.)
+2. Domain Roles Driven - roles represents business domain roles - good for most cases. 
+(i.e. player, game administrator, system administrator, ad partner etc.) 
+3. Domain Slices Driven - roles represents big slices of domain - more adaptive than 2 and simpler than 1. 
+(i.e. registered, feedback responsible, modelling responsible, clans configuration responsible etc.)
+
+7.3. ACL Model
+
+The most adaptive, but the most noiseful and not recommended model is Access Control Lists model.
+It means you will control every single permissions manually and grant it independent.
+
+The best way is combine different strategies as you need.
+But remember that every complication must be justified!
+In most cases Roles Model is enought.
+
+		C. Critical Information
+
+-- TODO C --
 
 -- TODO --
 
@@ -670,6 +760,9 @@ Flyway : flywaydb.org
 checkstyle : checkstyle.org
 OpenProject : openproject.org
 HashCorp Vault (secrets storage) : vaultproject.io
+Kerberos protocol : tools.ietf.org/rfc/rfc4120
+Bitwarden : github.com/bitwarden
+bitwarden_rs : github.com/dani-garcia/bitwarden_rs
 
 Agile Manifesto : agilemanifesto.org
 Martin Fowler blog : martinfowler.com
