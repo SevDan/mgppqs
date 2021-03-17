@@ -102,7 +102,9 @@ C. Critical Information
 
 D. Common Topics
 1. Departments & Intercommunication
-	1.1. Priciples & Delegation
+	1.1. Priciples
+	1.2. Delegation
+	1.3. Trust & Fair relationship
 2. Infrustucture
 	2.1. Infrastructure Providers
 	2.2. Internal Tools & Products
@@ -115,15 +117,23 @@ D. Common Topics
 	3.4. TMS
 	3.5. WIKI
 	3.6. VCS
-4. Marketing Troubleshoting
-	4.1. Aggressive Strategies
-	4.2. Good Reputation
+	3.7. ISMS
+4. Marketing
+	4.1. Big Picture
+	4.2. Problems
+	4.3. Aggressive Strategies
+	4.4. Good Reputation
+	4.5. Troubleshooting
 5. Community Management
 	5.1. Product Improvement
-	5.2. Technical Feedback
+	5.2. Product Feedback
 	5.3. Strong Little Groups - Reverese Discrimination
 6. Financial Profit & Risks
+	6.1. Reinvestments
+	6.2. Zero Profit
 7. Development Communities
+	7.1. Cooperation Principles
+	7.2. B2B - Business for Business
 
 		A. Stability
 1. Backups
