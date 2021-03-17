@@ -133,7 +133,7 @@ D. Common Topics
 	6.2. Zero Profit
 7. Development Communities
 	7.1. Cooperation Principles
-	7.2. B2B - Business for Business
+	7.2. B2B - Business to Business
 
 		A. Stability
 1. Backups
