@@ -109,7 +109,7 @@ D. Common Topics
 	2.3. Cloud Providers
 	2.4. Vendor Locking
 3. Team Tools & Software
-	3.1. Messangers
+	3.1. Messengers
 	3.2. Project & Product Management
 	3.3. Bug Reporting
 	3.4. TMS
@@ -232,7 +232,7 @@ The second behavior of monitoring is alerting.
 You should push important (and only important!) alerts to your developers/operations/management when fatal troubles happens.
 
 You can automate it with your corporate messangers (with bots API), emails and SMS-services. 
-Messangers are good and enought for most cases.
+Messengers are good and enought for most cases.
 
 2.3 Reliability Engineering
 
