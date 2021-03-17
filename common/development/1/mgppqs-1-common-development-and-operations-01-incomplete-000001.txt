@@ -16,6 +16,8 @@ Next recommendations could be useful for all software development & operations t
 - RDBMS - Relational Database Management System - software product that has a lot of functions to work with databases.
 - ISMS - Information Security Management System.
 - SSO - Single Sign-On
+- System Business Value Source* - main source of system business value. When it doesn't works, system cannot invoce benefits. 
+(*maybe some better general term exists, just didn't remember it at writing moment - SevDan)
 
 3. Preconditions
 
@@ -90,13 +92,13 @@ B. Security, Permissions, Access
 
 C. Critical Information
 1. Payment Processes
-2. Grant Permissions
+2. Granting Permissions
 3. Logs & Alerts Policy
 4. Event Sourcing
 	4.1. Events Driven
 	4.2. Source of Trurh
 	4.3. CQRS
-5. Replication & Reliable Infrastructures
+5. Replication & Reliable Infrastructure
 
 D. Common Topics
 1. Departments & Intercommunication
@@ -571,7 +573,8 @@ Use password (hash-based) or certificate key way.
 You can save your credentials in configuration files or secrets storage (i.e HashiCorp Vault).
 Pay attention: you should use SE Linux or some other Linux security access tools to prevent leaks.
 
-Don't use default / simple credentials for database connect.
+Don't use default / simple credentials for database 5. Replication & Reliable Infrastructures
+connect.
 
 3.2. Schemas 
 
@@ -735,7 +738,109 @@ In most cases Roles Model is enought.
 
 		C. Critical Information
 
--- TODO C --
+There are some points that may be critical for your product.
+Typically the critical points contains business mandatory features (that makes system sense, brings the main income).
+It named System Business Value Source in this standard.
+
+You should care about that points at most.
+You must keep it secure and safe as strong as you can.
+
+1. Payment Processes
+
+The most popular games monetization feature is donate system or game valuables trading.
+So, it means you have payment subsystem / integration as critical point.
+
+There are some requirements for payment feature:
+1. You must save payments information in long term storage.
+2. You must verify all incoming payments for correct values.
+3. You must give write & read access only for all payments subsystems storage users (administrators, managers, services, subsystems etc.) (without edit / delete)
+4. You should analyse payment communication formats and create robust architecture & implementation for it. 
+(you can use XP with TDD, create dedicated reliable QA strategy with different acceptance tests, mutation testing and other advanced techniques for it)
+5. You should use trusted payments service provider. But vendor locking is a bad idea. (robust but adaptive tactics may be better)
+
+2. Granting Permissions
+
+You should control your granting permissions process.
+Permissions granting logs is the most important information for audit & social engineering security.
+
+So, you can use different granting process types:
+1. One Granter - one team member who has granter permissions (i.e. admin) will grant permissions for others.
+Good enought for simple situation without sensitive information & access.
+2. Automatic Quorum - 2 steps of granting: request by voter & validation by some reviewers. Grant permissions only when enought team members voted for it.
+Good for flat team structure.
+3. Different Responsibility - split granting for some responsibility: a) grant role b) grant permissions
+Good for multilayers team.
+4. Full Escalation - only requests that escalates to next level. 
+Upper level team member validates requests, package it and escalate upward until product owner / director accepts / deny whole package.
+Good for sensitive data, but too much overhead.
+5. Adaptive Escalation - execute some granting requests immediantly and escalate reports and random/policies-based permissions granting. (i.e. based on frequency)
+
+You can develop your own way for granting permissions.
+Pay attention at:
+1. SSO - permissions granting process should place in one place.
+2. Audit - permissions granting processes should be available for periodically audit. Some strategies requires it. (like 'One Granter')
+3. Logging - permissions granting processes should be reliable logged.
+4. Trust & security management - permissions granting processes should be consistent with trust & security management (maybe you should integrate it ISMS).
+Security incidents analysis will be based on permissions granting & responsibility tracing information.
+
+3. Logs & Alerts Policy
+
+You must have robust & trusted logs and robust & trusted alerts for sensitive and System Business Value Source features.
+
+Logging & alerting are full of trade-offs. You should track information that will be read by human.
+That why tracking depends on business domain & values.
+You shouldn't track all modules with same policy. Tracing policies should reflect business values.
+
+There are many tools & systems for logs analysis and you should be able to use it. (i.e. ELK stack)
+
+Pay attention at tracing information:
+1. You should trace timestamp in correct format. (in one time zone)
+2. You should trace incidents in WWW format. (like test case) (Where, What happened, Why there is a mistake)
+3. You should trace navigation : service name, server IP, POD ID and other depends on your architecture.
+4. You must escape sensitive & personal data (names, emails, keys, tokens etc.)
+
+4. Event Sourcing
+
+There are some good architectures for critical, reliable and fault tolerance solutions.
+That architectures are good candidate for System Business Value Source modules.
+
+If you want to get robust business, your product & financial flow should be robust.
+But you don't need to make all components equaly reliable. (it can cost too much)
+
+One of the good architectural pattern is event sourcing.
+Event Sourcing means you should save information in events view and save it forever.
+So, your system will not execute delete or edit changes in events storage.
+To use information from event source, you have to create and update snapshot with events replay.
+
+4.1. Events Driven
+
+Events Sourcing are good for Actors systems (like Erlang/OTP, Akka and other). Some of them implements good API for Event Sourcing persisting.
+You can use it in other systems too (with well-known RDBMS), you just should implement it by yourself.
+
+There are Events Driven systems that can be easy integrate with Event Sourcing. (i.e. reactive systems with good interactive for soft real time apps (as games))
+
+4.2. Source of Truth
+
+If you have different databases (event sources and CRUD snapshot) for same data (i.e. one for save data and one for current snapshot), you can have bad problem with desynchronization.
+So, you have to choose some database as source of truth. At most cases event sourcing storage are better for it.
+If you choose it, you should implement re-plays operations and do it when your system indicates that CRUD database is in inconsistent state.
+
+Sometimes you cannot use Event Source as source of truth and you have to use current shapshot for it.
+So, you can get more difficult synchronization procedures.
+For instance, you can implement synchronization daemon process that will create sync events in event sourcing storage every time when it will starts and indicate that snapshot has new state.
+But mostly you don't need to do it. You can just use event sourcing for loggin or replays and provide consitency with other techniques.
+
+4.3. CQRS
+
+There is a good way to organize your data communication - CQRS.
+CQRS means command-query separation. You should separate you reads and writes to implement CQRS.
+So, it solves some problems (event sourcing storage will be source of truth) with choosing source of truth and provide you abilities to build reliable & distributed systems.
+It has some problems with write & reads reordering: some difficult solutions can has race conditions of it.
+So, you should think over all core aspects before implements CQRS. Maybe you cant use it in some cases.
+
+5. Replication & Reliable Infrastructure
+
+-- TODO 5. --
 
 -- TODO --
 
@@ -763,12 +868,18 @@ HashCorp Vault (secrets storage) : vaultproject.io
 Kerberos protocol : tools.ietf.org/rfc/rfc4120
 Bitwarden : github.com/bitwarden
 bitwarden_rs : github.com/dani-garcia/bitwarden_rs
+ELK : elastic.co/what-is/elk-stack
+Erlang/OTP : erlang.org/doc
+Akka : akka.io
 
 Agile Manifesto : agilemanifesto.org
 Martin Fowler blog : martinfowler.com
 Joel Spolsky about  leaky abstractions : joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions
 OWASP ASVS standard : github.com/OWASP/ASVS
 ISMS Online (ISMS Software) : isms.online
+Event Sourcing by Martin Fowler : martinfowler.com/eaaDev/EventSourcing.html
+CQRS by Martin Fowler : martinfowler.com/bliki/CQRS.html
+Reactive Manifesto : reactivemanifesto.org
 
 Jesse Schell "The Art of Game Design" : amazon.com/Art-Game-Design-Lenses-Third/dp/1138632058
 Martin Fowler "Refactoring" : martinfowler.com/books/refactoring.html
