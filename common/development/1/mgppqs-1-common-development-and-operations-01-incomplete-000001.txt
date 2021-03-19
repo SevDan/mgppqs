@@ -99,12 +99,15 @@ C. Critical Information
 	4.2. Source of Trurh
 	4.3. CQRS
 5. Scalable & Reliable Infrastructure
-
+	5.1. Actors Model
+	5.2. Microservices (contrainers & solutions)
+	5.3. Serverless
+	
 D. Common Topics
 1. Departments & Intercommunication
 	1.1. Priciples
 	1.2. Delegation
-	1.3. Trust & Fair relationship
+	1.3. Employee Motivation
 2. Infrustucture
 	2.1. Infrastructure Providers
 	2.2. Internal Tools & Products
@@ -856,8 +859,105 @@ Some technologies provides built-in utilities that can help you with logic scali
 The most important point is thinking about scalability at architecture time, infrastructure is only base.
 You cant build good scalable product without complex approach. 
 
--- TODO 5. --
+There are some platforms that provides nice and easy ways to scale your application, based on Actors model.
 
+5.1. Actors Model
+
+Actors model is good for distributed & asyncronuous systems.
+Actors are computing primitives communicates with messages with (or without) internal state.]
+Some actors can create and rule other actors. You should read about it to get more complete knowledge.
+
+Actors Model was founded with OOP as source. (first Alan Key version, nearest with Smalltalk implementation, not C++ or Java way)
+So, you can think about actors as domain business objects.
+
+There are good ready actors model implementations: 
+- Erlang/OTP (or pretty Elixir), 
+- Akka ecosystem (based on JVM), 
+- Pulsar (Python), 
+- rotor (C++), 
+- Orleans (.NET) 
+
+Actors model are good for most cases, but has some problems that may be critical for not very experienced developers. (as debugging, monitoring, profiling, troubleshooting)
+
+5.2. Microservices (containers & solutions)
+
+You can split your application to sub-applications and name them services/microservices instead of splitting it to actors.
+That means you can use standard stack and encapsulate some business logic into complete applications with database, middlware and even GUI.
+
+If you build your application with microservices, you will get some common problems as building and deploying, orchestration, discovery and other.
+You can solve them with orchestrators (Kubernetes), containers (Docker or Podman), service discovery tools (ZooKeeper) and other.
+
+That means your technology zoo will be difficult and you have to maintain it. 
+Remember that services architecture are more difficult than monolit because add you another control layer between applications.
+
+There are some solutions that provides more specific services-way (i.e. SOA-way).
+For instance, some solutions based on EIP (Enterprise Integration Patterns) as Apache Karaf, Apache Camel and so on.
+It good for enterprise applications, but too difficult for games, so you shouldn't use it: common way (k8s-based) will be better.
+
+5.3. Serverless
+
+Serverless is a extreme alternative of microservices with some details from actors.
+In serverless you should split your application in atomic functions without state, write it with special (sometimes vendor-specific) SDK and deploy on cloud providers serverless hosting.
+When your application (users from GUI, another functions or some dedicated 'serverfull' module of your application) will call serverless function, provider will create new function instance and route call to it.
+
+Serverless can save some money because provide more adaptive way for scalability, but it can be bad for some latency-critical modules. (as players synchronization)
+
+You should think about all aspects in design time. Can you move some of your servers in different datacenters? Countries?
+Explore your base network protocol & target game domain, maybe it cannot be scaled.
+
+D. Common Topics
+
+1. Departments & Intercommunication
+
+You should have simple, understandable and transparent team structure.
+Avoid of unneccessary bureaucrasy: you must reduce all overheads on the way.
+You can use round table as team model but it good for well-qualified employees only.
+Another way is segregate layers & branchs.
+
+Create departments based on work needs.
+You need develop software? Create development department.
+You need well-crafted product with high quality? Create QA department.
+Every department must contains at least one worker. And worker can be in several departments.
+
+Departments segregation has some problems, the biggest one is discommunication.
+When you segrate employees in different departments, they can start separating from other departments and shifting responsibilities.
+
+1.1. Principles
+
+You should create departments based on trust.
+It means you and other departments will trust some responsibilities to new one.
+So, you should get feedback and analyse trust state and answer the question everytime: trust is justified now? 
+
+You should support internal initiatives and have fair promotion system.
+
+1.2. Delegation
+
+Trust should be bi-directional relationship. It means if you trust your team, your team will trust you.
+So, avoid of micromanagement and overcontrol. (it obvious if you fighting overhead)
+You can delegate mostly sublayers tasks.
+
+If you works on strategy, you can delegate tactics.
+If you works on architecture, you can delegate detailed design and implementation.
+
+Found on responsibilites when you planning your work. Managers should just facilitates works, they shouldn't be aware of all implementation details really.
+
+1.3 Employee Motivation
+
+Manage your employees motivation. 
+If your employee works in internal boring code with tons of legacy and have underpaid, he will quit soon, be sure.
+And you will lose in that situation, he will never back again to work with you because it unfair behaviour.
+
+Motivation management is a key to have robust and productive team.
+Only well-motivated people can create good products.
+
+So, you should create some analytics metrics for motivation monitoring. 
+Create competence matrix, motivation plan to manage motivation dynamic. 
+Your workers should be confident in their future.
+One on one, performance reviews, promotion meetings can help in motivation managements. (remember about minimum overhead)
+
+2. Infrastructure
+
+-- TODO 2 --
 -- TODO --
 
 7. Criteria
