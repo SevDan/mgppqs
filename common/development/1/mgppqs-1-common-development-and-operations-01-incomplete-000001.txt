@@ -872,8 +872,8 @@ So, you can think about actors as domain business objects.
 
 There are good ready actors model implementations: 
 - Erlang/OTP (or pretty Elixir), 
-- Akka ecosystem (based on JVM), 
-- Pulsar (Python), 
+- Akka ecosystem (based on JVM, multilang), 
+- Pulsar (JVM, C#, Python etc.), 
 - rotor (C++), 
 - Orleans (.NET) 
 
@@ -905,7 +905,7 @@ Serverless can save some money because provide more adaptive way for scalability
 You should think about all aspects in design time. Can you move some of your servers in different datacenters? Countries?
 Explore your base network protocol & target game domain, maybe it cannot be scaled.
 
-D. Common Topics
+		D. Common Topics
 
 1. Departments & Intercommunication
 
@@ -987,6 +987,9 @@ bitwarden_rs : github.com/dani-garcia/bitwarden_rs
 ELK : elastic.co/what-is/elk-stack
 Erlang/OTP : erlang.org/doc
 Akka : akka.io
+Pulsar : pulsar.apache.org/en
+rotor : github.com/basiliscos/cpp-rotor
+Orleans : dotnet.github.io/orleans
 
 Agile Manifesto : agilemanifesto.org
 Martin Fowler blog : martinfowler.com
