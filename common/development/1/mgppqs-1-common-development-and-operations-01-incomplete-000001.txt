@@ -98,7 +98,7 @@ C. Critical Information
 	4.1. Events Driven
 	4.2. Source of Trurh
 	4.3. CQRS
-5. Replication & Reliable Infrastructure
+5. Scalable & Reliable Infrastructure
 
 D. Common Topics
 1. Departments & Intercommunication
@@ -848,7 +848,13 @@ So, it solves some problems (event sourcing storage will be source of truth) wit
 It has some problems with write & reads reordering: some difficult solutions can has race conditions of it.
 So, you should think over all core aspects before implements CQRS. Maybe you cant use it in some cases.
 
-5. Replication & Reliable Infrastructure
+5. Scalable & Reliable Infrastructure
+
+If you develop big product or think that your product will grow up, you should care about scalability.
+Some technologies provides built-in utilities that can help you with logic scaling, but you should care about infrastructure scalability by yourself.
+
+The most important point is thinking about scalability at architecture time, infrastructure is only base.
+You cant build good scalable product without complex approach. 
 
 -- TODO 5. --
 
