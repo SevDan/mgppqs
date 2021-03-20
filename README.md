@@ -1,4 +1,7 @@
 # MGPPQS - Open Community Driven Standards
+
+[![Join the chat at https://gitter.im/mgppqs/russian](https://badges.gitter.im/mgppqs/russian.svg)](https://gitter.im/mgppqs/russian?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Multiplayer Games Product Processes Quality Standards
 
 Suite of community driven standards that contains recommendations for development, quality assuranse, operations and other processes in multiplayers games products & projects.
