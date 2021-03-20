@@ -18,6 +18,9 @@ Next recommendations could be useful for all software development & operations t
 - SSO - Single Sign-On
 - System Business Value Source* - main source of system business value. When it doesn't works, system cannot invoce benefits. 
 (*maybe some better general term exists, just didn't remember it at writing moment - SevDan)
+- SLA - Service Level Agreement
+- TMT - Test Management Tool
+- VCS - Version Control System
 
 3. Preconditions
 
@@ -116,11 +119,12 @@ D. Common Topics
 3. Team Tools & Software
 	3.1. Messengers
 	3.2. Project & Product Management
-	3.3. Bug Reporting
-	3.4. TMS
-	3.5. WIKI
-	3.6. VCS
-	3.7. ISMS
+	3.3. Help Desks
+	3.4. Bug Tracking
+	3.5. TMT
+	3.6. Wiki
+	3.7. VCS
+	3.8. ISMS
 4. Marketing
 	4.1. Big Picture
 	4.2. Problems
@@ -957,7 +961,143 @@ One on one, performance reviews, promotion meetings can help in motivation manag
 
 2. Infrastructure
 
--- TODO 2 --
+When you decide to open your game for public, you should choose deployment infrastructure.
+It means you should plan budget, deployment pipeline, monitoring strategy etc.
+You can build your own infrastructure or use some ready services.
+
+2.1. Infrastructure Providers
+
+You should use only robust and reliable providers. Get licenced solutions with real SLA.
+Provider without good monitoring cannot provide you any SLA, if he has 'SLA' on site, it just a marketing bullshit.
+SLA based on SLI (Service Level Indicator) and SLO (Service Level Objectives).
+So, no one cant provide you SLA without concrete SLI and SLO. (it impossible to achieve undefined goals) 
+
+Ask your provider what his SLA means. What indicators he uses, what objectives he target at.
+If he cant answer this questions complete, his SLA just a marketing bullshit.
+
+2.2. Internal Tools & Products
+
+When you start develop your own tools, products, infrastructure components and other side-solutions, you should be sure that you can maintain it.
+If you cant, you should use some 3rd party alternatives or get qualified outsource or even consultancy.
+Don't avoid difficult solutions removing. You should minimize overheads and refuse of trash.
+
+It will be better to develop small tools with small responsibility that easier to maintan and replacement.
+You can build your own CLIs, bash scripts, internal microservices, but you shouldn't create your own kubernetes.
+
+2.3. Cloud Providers
+
+Cloud providers has good features that can be useful for some solution parts.
+It probably not compatible with latency critical solutions because networks overheads.
+Remember about overheads, network problems, locality benefits.
+
+There are some nice cloud solutions that will be useful for all projects as cheap s3 storage, scalable web-site hosting or CDNs.
+But some of theese cannot be used in games. (it probably hard to get good latency with serverless synchronization)
+
+Remember about cloud providers lock-in. If you use too specific features, it will be difficult to refuse of them.
+For instance, serverless SDKs are typically (but not always) incompatible.
+
+2.4. Vendor Locking
+
+You must avoid vendor locking as well as you can.
+Remember that your platform may cause locks too. 
+Use clean architecture instead of some built-in features if you want to get clean portable solution.
+
+If you cannot refuse of vendors solutions, you must maintain points of integration.
+It means documents behavior, unordinary features and other specal information about your vendor.
+
+3. Team Tools & Software
+
+3.1. Messengers
+
+You can use different messengers for work, but some of this has advanced features that will increase your productivity.
+There are some requirements for good corporative messangers:
+1. It shouldn't be personal messanger. (you must separate personal life and work)
+2. It should have dedicated channels / rooms.
+3. It should have discussion threads (dedicated discussion for message in channel)
+4. It should have access management (permissions)
+5. It should have API for integration
+6. It should be safety and secured
+
+There are some good messengers for teams: Telegram, Slack, JetBrains Space (more than just messenger), gitter and other.
+If you want to use different messengers for different purposes, you can integrate it. (i.e. with matterbridge software)
+
+3.2. Project & Product Management
+
+There are software to manage projects and products development.
+It helps you with your pipelines, strategies, planning and activity monitoring.
+Some of theese have time tracking & 
+You can integrate it with BI tools for big projects to get more advanced data analytics.
+Some of them can be integrated with helpdesks.
+
+There are project management tools: OpenProject, Atlassian JIRA, JetBrains YouTrack.
+
+3.3. Help Desks
+
+When your team grow up and you got a lot of users feedback, you should manage technical support with some systems.
+There are some help desks for real world IT departmenets, enterprise products support and other systems that useful for b2b business.
+Some of them can be used for b2c technical support or be customized to used for that purposes.
+You can use osTicket for support, it has email supports, dashboards and other features.
+Another way is use forums topics and create and manage tickets into your project management or bug report tools.
+You can choose your way depends on your needs.
+
+3.4. Bug Tracking
+
+Bug reporting tools is a project management ancestors. It based on tickets system too and provides you basic functional for track issues.
+There are a old-fashioned bug tracking systems like BugZilla.
+You can use it instead of project management tool in pair with more lightweight management tools like Trello (kanban desk) or Pivotal Tracker.
+Another way is use it in pair with complete project management tool just for some users to reduce costs, but it may be overhead. 
+
+3.5. TMT
+
+TMT - Tests Management Tool
+
+Test management tool is a neccessary software for QA department. It contains main test documentation - test cases.
+So, you should use TMT to get good quality assurance experience.
+There are many TMT tools. Some of them are:
+1. Zephyr - good for Jira users.
+2. TestLink - popular opensource TMT.
+3. FitNesse - nice test cases wiki and ATDD tool that you can use as TMT.
+4. TestRails - complete TMT.
+
+You should choose some TMT depends on your needs and experience.
+Pay attention at tools ROI. Can you get benefit for your spents?
+
+3.6. Wiki
+
+Wiki is a complete software to share internal information. 
+There are some tools with spaces segregation, documents versioning and other features.
+It can be helpful for any medium or big teams.
+There are products you can use as wiki:
+1. GitBook - good for opensource & development only teams.
+2. Atlassian Confluence - good for big teams with big budgets.
+3. Notion - simple and cheap tool.
+4. MediaWiki - robust & mature tool, good for stable documents (with rare changing).
+
+You should pay attention to next requirements:
+1. Changing Frequency - how often you will change info in wiki?
+2. Read Frequency - how ofthen your wiki will be read?
+3. Access management - can you manage permissions enought?
+4. Data storage - what type of database your wiki system use? 
+Do you want to restore your history data?
+
+3.7. VCS
+
+You should use VCS (Version Control System) for some purposes.
+Of course, your developers should use VCS for code development (as git or mercurial) with central repository.
+But you can use VCS for some other purposes: configurations, documents, reports, copywriting and so on.
+
+Git is the most popular and standard VCS at now.
+
+3.8. ISMS
+
+ISMS (Information Security Management System) is a software for security company policies management, incidents management, security monitoring and analysis.
+The most popular ISMS are based on ISO 27001.
+If you don't want to be certified by ISO 27001, you probably should use free software instead of big enterprise products.
+There is a good opensource ISMS - Verinice. It is ISO 27001 compatible and has simple GUI.
+
+4. Marketing
+
+-- TODO 4 --
 -- TODO --
 
 7. Criteria
@@ -971,6 +1111,8 @@ Amazon s3 storage service : aws.amazon.com/ru/s3
 Ceph object storage : ceph.io
 OpenStack cloud software : openstack.org (swift component is a object storage)
 Jenkins CI/CD : jenkins.io
+Travis CI : travis-ci.com
+JetBrains TeamCity : jetbrains.com/teamcity
 Grafana : grafana.com
 Prometheus : grafana.com/oss/prometheus
 Rclone : rclone.org 
@@ -990,12 +1132,33 @@ Akka : akka.io
 Pulsar : pulsar.apache.org/en
 rotor : github.com/basiliscos/cpp-rotor
 Orleans : dotnet.github.io/orleans
+matterbridge : github.com/42wim/matterbridge
+Telegram : telegram.org
+Slack : slack.com
+JetBrains Space : jetbrains.com/space
+gitter : gitter.im
+Atlassian Jira : atlassian.com/software/jira
+JetBrains YouTrack : jetbrains.com/youtrack
+osTicket : github.com/osTicket/osTicket
+BugZilla : bugzilla.org
+Trello : trello.com
+Pivotal Tracker : pivotaltracker.com
+Zephyr TMT : getzephyr.com
+TestLink : testlink.org
+FitNesse : fitnesse.org
+TestRails : gurock.com/testrail
+GitBook : gitbook.com
+Atlassian Confluence : atlassian.com/software/confluence
+Notion : notion.so
+MediaWiki : mediawiki.org/wiki/MediaWiki
+git : git-scm.com
+ISMS Online (ISMS Software) : isms.online
+Verinice ISMS : github.com/SerNet/verinice
 
 Agile Manifesto : agilemanifesto.org
 Martin Fowler blog : martinfowler.com
 Joel Spolsky about  leaky abstractions : joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions
 OWASP ASVS standard : github.com/OWASP/ASVS
-ISMS Online (ISMS Software) : isms.online
 Event Sourcing by Martin Fowler : martinfowler.com/eaaDev/EventSourcing.html
 CQRS by Martin Fowler : martinfowler.com/bliki/CQRS.html
 Reactive Manifesto : reactivemanifesto.org
