@@ -126,15 +126,12 @@ D. Common Topics
 	3.7. VCS
 	3.8. ISMS
 4. Marketing
-	4.1. Big Picture
-	4.2. Problems
-	4.3. Aggressive Strategies
-	4.4. Good Reputation
-	4.5. Troubleshooting
+	4.1. Problems
+	4.2. Solutions
 5. Community Management
 	5.1. Product Improvement
 	5.2. Product Feedback
-	5.3. Strong Little Groups - Reverese Discrimination
+	5.3. Strong Little Groups - Reverse Discrimination
 6. Financial Profit & Risks
 	6.1. Reinvestments
 	6.2. Zero Profit
@@ -1097,12 +1094,46 @@ There is a good opensource ISMS - Verinice. It is ISO 27001 compatible and has s
 
 4. Marketing
 
--- TODO 4 --
--- TODO --
+There are two types of software development companies marketing:
+1. Product Marketing - for end users
+2. Recruting Marketing - for potential employees
+
+Current standard has some titles of Product Marketing
+
+4.1. Problems
+
+There are some actual problems in marketing:
+1. Effectiveless projects - huge budgets produces huge risks
+2. Reputation fails - untrusted users (players, b2b risks)
+3. Incomplete strategies - only one reason to play
+4. Non product approach - development works bad with marketing
+
+4.2. Solutions
+
+You should get good metrics for your marketing. 
+You can use commercial CRMs or build your own solution to monitor contractors KPIs.
+There is some important thing is develop product instead of bubble, so you should have your ad budgets under control.
+
+You shouldn't use aggressive strategies if you want to have small reputation risks.
+It can be fatal for some operation processes if you have reputation problems.
+If you want to use all your probabilities, you must reject all aggressive ways.
+
+There is only one way to have complete strategy: maintain marketing documents and KPIs.
+If you big and have dedicated marketing department, you should use ECM or CSP for it.
+
+If your marketing doesn't works with developers in one team, you should define marketing product approach and change your processes to use it.
+It means your marketing and development departments should work with product instead of ad banners / bloggers integrations etc.
+
+Sometimes you can invite external auditors & consultants for marketing troubleshooting.
+
+5. Community Management
+
+-- TODO 5. Community Management --
 
 7. Criteria
 
 -- TODO --
+-- Check list or target metrics ? -- 
 -- TODO --
 
 8. Links, Materials & Attachements
@@ -1157,7 +1188,7 @@ Verinice ISMS : github.com/SerNet/verinice
 
 Agile Manifesto : agilemanifesto.org
 Martin Fowler blog : martinfowler.com
-Joel Spolsky about  leaky abstractions : joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions
+Joel Spolsky about leaky abstractions : joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions
 OWASP ASVS standard : github.com/OWASP/ASVS
 Event Sourcing by Martin Fowler : martinfowler.com/eaaDev/EventSourcing.html
 CQRS by Martin Fowler : martinfowler.com/bliki/CQRS.html
@@ -1168,7 +1199,4 @@ Martin Fowler "Refactoring" : martinfowler.com/books/refactoring.html
 Rober Martin "Clean Code" : amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882
 Steven C. McConnell "Code Complete" : amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670
 PMI PMBOK : pmi.org/pmbok-guide-standards 
-
--- TODO --
--- TODO --
- 
+CSPs Gartner Review : gartner.com/reviews/market/content-services-platforms
