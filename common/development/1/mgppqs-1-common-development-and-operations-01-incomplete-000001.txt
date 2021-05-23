@@ -128,16 +128,8 @@ D. Common Topics
 4. Marketing
 	4.1. Problems
 	4.2. Solutions
-5. Community Management
-	5.1. Product Improvement
-	5.2. Product Feedback
-	5.3. Strong Little Groups - Reverse Discrimination
-6. Financial Profit & Risks
-	6.1. Reinvestments
-	6.2. Zero Profit
-7. Development Communities
-	7.1. Cooperation Principles
-	7.2. B2B - Business to Business
+	4.3. Community Management
+	4.4. Development Communities
 
 		A. Stability
 1. Backups
@@ -1100,17 +1092,17 @@ There are two types of software development companies marketing:
 
 Current standard has some titles of Product Marketing
 
-4.1. Problems
+4.1. Advertising Problems
 
-There are some actual problems in marketing:
+There are some actual problems in marketing for games:
 1. Effectiveless projects - huge budgets produces huge risks
 2. Reputation fails - untrusted users (players, b2b risks)
 3. Incomplete strategies - only one reason to play
 4. Non product approach - development works bad with marketing
 
-4.2. Solutions
+4.2. Advertising Solutions
 
-You should get good metrics for your marketing. 
+You should get good metrics for your advertising. 
 You can use commercial CRMs or build your own solution to monitor contractors KPIs.
 There is some important thing is develop product instead of bubble, so you should have your ad budgets under control.
 
@@ -1126,9 +1118,23 @@ It means your marketing and development departments should work with product ins
 
 Sometimes you can invite external auditors & consultants for marketing troubleshooting.
 
-5. Community Management
+4.3. Community Management
 
--- TODO 5. Community Management --
+There is a necessary product improvement process is feedback analysis. 
+You should have stable feedback loops and strong analysis.
+
+The most dangerous problem for multiplayer games is strong little groups & reverse discrimination.
+Your product should has determinated target audience (you should write it in your plan or mission docs) and complains with their needs.
+But sometime small groups of players can start give you too much useless feedback and shout on every decision that affects their specific needs.
+You should control that with strict feedback analysis rules and system approach to prevent reverse discrimination inside your audience.
+
+4.4. Development Communities
+
+Sometimes you have to hire developers or ask help from outside.
+You should build good HR brand and communicate with developers & game designers from other companies or product teams.
+
+There is a good way to contribute in game development community is sharing your experience in blogs/meetups or participate in communities discussions.
+For instance, you can participant in MGPPQS standards improvement.
 
 7. Criteria
 
