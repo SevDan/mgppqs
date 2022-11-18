@@ -1,0 +1,1208 @@
+MGPPQS Common Development And Operations Standard №1 v.1
+
+1. Goals
+
+There are lot of common problems in product lifecycle that may be fatal and produce huge financial costs. 
+Next recommendations could be useful for all software development & operations teams.
+
+2. Terms
+
+- Quality Assuranse Department - dedicated department or implicit roles of team members who test and monitor product quality.
+- Development Department - dedicated or implicit team members who creates new featers in product. (developers, game designers, modellers, event masters etc.)
+- Development Game Project - development project (as in PMBOK) in progress of game creation. (before release, first stage of lifecycle)
+- Game Product - ready to play game - the result of Development Game Project, game in production with active users and operations processes.
+- Vendor - products/services provider with proprietary specific offer.
+- Database - software product/solution that serve data storage & operations.
+- RDBMS - Relational Database Management System - software product that has a lot of functions to work with databases.
+- ISMS - Information Security Management System.
+- SSO - Single Sign-On
+- System Business Value Source* - main source of system business value. When it doesn't works, system cannot invoce benefits. 
+(*maybe some better general term exists, just didn't remember it at writing moment - SevDan)
+- SLA - Service Level Agreement
+- TMT - Test Management Tool
+- VCS - Version Control System
+
+3. Preconditions
+
+Next recommendations could be useful for development game projects & game products both and can be implemented as you want
+
+4. Tags
+
+Common, Development, Operations, Project, Product
+
+5. Body 
+
+There are lot of useful recommendations, but that standard contains only main & critical recommendations. 
+You can implement all this or best part only.
+
+Subjects:
+
+A. Stability
+1. Backups
+	1.1. State
+	1.2. Frequency & Staling
+	1.3. Distribution & Verifying
+	1.4. Solutions & Tools
+2. DevOps 
+	2.1. CI/CD
+	2.2. Monitoring & Alerting
+	2.3. Reliability Engineering
+	2.4. Database Maintanence
+3. Stable Architechure
+	3.1. Bad Practices
+	3.2. Legacy Software
+4. Code Quality
+	4.1. Linters & Automatization
+	4.2. Code Review process
+	4.3. External Consulting
+	4.4. Software Testing (QA)
+5. Development Lifecycle
+	5.1. Waterfall
+	5.2. Agile
+	5.3. Other
+6. Documentation
+	6.1. Product Documents
+	6.2. QA Documents
+	6.3. Guidelines & Internal information
+	6.4. User Guides & Manuals
+7. Technical Feedback
+	7.1. Support Department
+	7.2. Postmortems
+
+B. Security, Permissions, Access
+1. OWASP & Principles
+2. ISO 27001
+	2.1. Information Security Management
+3. Database Security
+	3.1. Credentials 
+	3.2. Schemas
+	3.3. Some attributes
+4. Authorization & Authentication
+	4.1. Cryptography
+	4.2. Password policy
+	4.3. Leaks & Trust
+	4.4. 2 Factor
+5. Audit & Rights
+	5.1. Code Development
+	5.2. External Audit
+6. Other Access Ways
+	6.1. SSO
+	6.2. Source of Truth
+7. Perimissons
+	7.1. Levels Model
+	7.2. Roles Model
+	7.3. ACL Model
+
+C. Critical Information
+1. Payment Processes
+2. Granting Permissions
+3. Logs & Alerts Policy
+4. Event Sourcing
+	4.1. Events Driven
+	4.2. Source of Trurh
+	4.3. CQRS
+5. Scalable & Reliable Infrastructure
+	5.1. Actors Model
+	5.2. Microservices (contrainers & solutions)
+	5.3. Serverless
+	
+D. Common Topics
+1. Departments & Intercommunication
+	1.1. Priciples
+	1.2. Delegation
+	1.3. Employee Motivation
+2. Infrustucture
+	2.1. Infrastructure Providers
+	2.2. Internal Tools & Products
+	2.3. Cloud Providers
+	2.4. Vendor Locking
+3. Team Tools & Software
+	3.1. Messengers
+	3.2. Project & Product Management
+	3.3. Help Desks
+	3.4. Bug Tracking
+	3.5. TMT
+	3.6. Wiki
+	3.7. VCS
+	3.8. ISMS
+4. Marketing
+	4.1. Problems
+	4.2. Solutions
+	4.3. Community Management
+	4.4. Development Communities
+
+		A. Stability
+1. Backups
+Backup is the result of process that provide you way to get system snapshot on previous time. 
+Backups helps you saving your state (data) in fatal cases (i.e. if your server burnt in fire)
+Typically backups are only partial of state and represents system state for some time moment.
+The most common popular are database backups. All modern RDBMS provide built-in mechanisms to backup your databases.
+Another functionality to reliable data storage is replication. But replication cannot replace backuping at all! 
+It's just another factor to make your data safety stored.
+Backuping is a extremely important process for stability product. You must do backups and maintain it.
+
+1.1. State
+State of any program is a property of data. Software programs can use state for many processes and store it in other locations.
+The most popular state that needs to be backuped is persisted state (data saved in database and persisted on disk), 
+but there are a lot of cases where other state should be persisted reliable too 
+(i.e. caches, important attachements, documents, sertificates, cryptography keys and other)
+
+In current standard we will describe database state only.
+
+1.2. Frequency & Staling
+If you will do backups too rare it will be invalid. If you will do backups too ofthen it will cost too much to store.
+There is good tradeoff is a flexible model with staling.
+
+You should divide your backups for some categories: archived, long term, short term, warm and save it in different locations (please pay attention at this).
+a) archived - monthly backups saved for always. The best way to put it into s3 cloud archive storage.
+b) long term - weekly backups saved for 6 month (or year). You can put it into object storage too, but maybe you should get more fast storage type.
+c) short term - daily backups saved for 2 weeks (or month). You can put it into your dedicated/virtual server (i.e. some NAS)
+d) warm - backups with hours frequency (from 30 minutes to 2 hours; or 4-8 hours if you have database replication). 
+You should put it in some other server (or same only for cases if you have RAID-1 or better)
+
+You must automate backuping and staling processes. You can use manually backuping only for addition with automatic.
+
+1.3. Distributing & Verifying 
+Backups are not safety stored if it not distributed reliable and not verified. 
+The best way is using automatic backups verification tools (but it can be too difficult or cost too much) - you can automate it with CI/CD scheduling and tests suite, but that process should be maintained by team.
+
+Distribution process has next parts:
+1. Do the backup (without downtime if you can)
+2. Verify backup has no corruption - files has no obvious errors & mismatches. 
+If it's not, send alerts and try to do it again later (not now! it can take damage to perf)
+3. Distribute backup files (i.e. rclone for clouds, rsync for server-to-server)
+4. Verify that distribution was complete successfully. If it's not, send alerts and try to do it again later (not now too)
+
+Verification process:
+1. Download backup into local verificator (operator or automatic tool) storage
+2. Clean local RDBMS
+3. Upload backup into local RDBMS with native or external tools
+4. Run predefined test suites (should be automated or documented accurately!)
+5. If tests passed successfuly, log info into monitoring system about it. If it's not, sends alerts and log details into monitoring system.
+
+1.4. Solutions & Tools
+You can use built-in linux utils for backuping process (rsync, crontab, etc.), 
+but you should control quality and reliable of each components if you do it by yourself. 
+You can't trust to whole system if you can't trust to some system component.
+
+More handly way is to use some ready reliable backbone and customize it for your needs. 
+For instance, you can use CI/CD software as automation backbone (i.e. free Jenkins). 
+You will create your own scripts manually, but it will be more comfortable and small, so you will trust it with bigger probability.  
+
+You can built your own monitoring & alerting system based on free Grafana & Prometheus and integrate it with your messenger manually or use proprietary software instead. 
+See more about it in the other topics.
+
+2. DevOps
+
+DevOps is a modern approach to team collaboration. 
+It all about how to get reliable, stable and trustful software products in modern fast world. 
+Some experts thinks that DevOps is a good addition for agile. 
+We will talk about it from the tool side that can help you build reliability and stabilization processes.
+
+2.1. CI/CD
+Continuous Integration and Continuous Delivery are approaches to fast development changes delivery. 
+It neccessary principle in agile & devops. One of the part of this approach is a tooling. 
+
+CI tools gives you basics of code quality processes and provide you simple configurable pipelines to automate that processes. 
+You can write your own scripts to easy automate code building, code verifying (with linters, static analysis), 
+code testing (if you write automated test suites for it) and a lot of other features as you need. 
+Of course, as every dedicated product, you should maintain it. 
+But it easy to do, you should change so little part of whole system to change your pipelines. 
+So you can give that work to developersTrusts who knowns about code everything.
+
+You should build your code in dedicated solution as CI/CD tools to prevent environment dependencies 
+and you should run all changes over build pipeline to prevent untested code. 
+CI/CD tools is not alone, all of DevOps/agile tools should be used toghether, 
+that how tools gives good profit composely (i.e. you can use CI/CD with Docker to provide atomacity buildings and environment delivery)
+
+As we said earlier, there is a good idea to automate backuping with CI/CD tools.
+
+2.2. Monitoring & Alerting
+
+Monitoring & Alerting is the most important thing in stability. It provides you feedback about your system & fatal errors. 
+So, it provides you knowlage about your system stability.
+
+There are lot of monitoring tools that can be used in other cases. You can use Grafana for most cases. 
+It provides simple API for extentions and can be customized to show your information into dashboards.
+
+The most improtant principle of monitoring is trust. 
+If your monitoring shows wrong information or contains a lot of noise, you can't trust it. 
+So, you should check that all of counting metrics are actual and complete.
+
+Monitoring steps side by side with logging. 
+You should create project logging guidelines and take care about trust to logs. 
+Sometimes you should match logs and monitoring data to successfully troubleshooting. 
+So, you should add same timestamp into your logs as you have it in monitoring.
+
+The second behavior of monitoring is alerting. 
+You should push important (and only important!) alerts to your developers/operations/management when fatal troubles happens.
+
+You can automate it with your corporate messangers (with bots API), emails and SMS-services. 
+Messengers are good and enought for most cases.
+
+2.3 Reliability Engineering
+
+Reliability Engineering is a discipline that implements creating reliable systems. 
+You cannot create reliable and stable system without reliability engineering.
+It means your team should contains one dedicated role of reliability engineer (like SRE) or one of team members should take it over implicitly.
+
+Reliability engineering means explicit system risks management. 
+So, reliability engineer should take care of monitoring, backuping, alerting. He must maintain common stability and reliability processes. 
+As result reliability engineering process should determine risks probability and costs. 
+Maybe you should take all new features under reliability engineering analysis. (depends on your needs)
+
+The reliability engineering works with some metrics as SLA, SLO, QoS and some other. 
+If you want to get really reliable and stable product, you should read about it.
+
+2.4. Database Maintanence
+
+If you have RDBMS as database system, you should take care about configs and database features. 
+If you have no DBA role, some of developers/administrators should configure database backuping processes,
+migration (up and down) processes, replication processes.
+
+The best way to maintain procedures, functions and database migrations is put all changes into files in your VCS with project code. 
+So, every product version will be equipped with right scripts.
+
+The most simplest way to maintain migrations scripts is store it in lexicographical order in format like 
+'yyyy-MM-dd-number-title.sql' (i.e. '2021-03-13-1-updateUsersTable-1.sql') grouped by folder or not. 
+Some migration tools & frameworks supports that format (i.e. dbciupdater or Flyway) and some supports custom others (i.e. XML defined schema migration)
+
+Database replication is a good feature that can help you with a lot of problems. 
+You can get scalable read load with it and get addition data saving in other servers (in addition with backups). 
+So, in some cases if your master database node will shutted down, one of slave node will be switched to master mode and save your application from downtime.
+
+Some NoSQL database provides you custom features with extraordinally effects. 
+In most cases you will get database without ACID transactions. You should be well-known with your tools.
+
+3. Stable Architecture
+
+When you projecting your PoC, you should take care of stability and reliability in future. 
+The most popular way in statups is get PoC as ready product and try to improve it. But problems in architecture may destruct all plans.
+
+3.1. Bad Practices 
+
+Some projects are hopes on other products. You shouldn't do it. Architecture must be reliable to external problems. 
+For instance, your product should be adaptive for game platforom bugs. 
+It means zero trust to external systems in core business logic (i.e. authorization, payment processing).
+
+A lot of realtime configuration and diffuse state is a problem too. 
+As you know, you should do backups and be available to fast recover from any backup. 
+So, if you cant do it because too much runtime configurations should be saved and restored, you losing your reliability.
+
+3.2. Legacy Software
+
+If you use legacy software, the best way to build stable product with it is separate it and use as 3rd party software. 
+There is no way to build good, reliable and controlled architecture over uncontrolled legacy products.
+
+4. Code Quality
+
+Code Quality is the cheapest parameter that affects system stability and product quality.
+Of course, code quality in main is a subjective metric that cannot be measured exactly. 
+But code quality is a internal quality (as Martin Fowler defined) and it exists. 
+Developers with good experience can said "that code is bad" and "that code is good", sometimes they have arguments for their opinion. 
+So, industry has some methods to manage and improve code quality.
+
+Code Quality depends on developers experience and qualification. So, if you want to improve it, you should start from candadate selection processes.
+You can invite external consultant for that job, but it cost so much. 
+Maybe, you should improve your test tasks, interview questions, CV selection process or correct your offer (good developers cost good money).
+
+Second thing is onboarding process, guidelines and growing up provisioning. 
+You should get at least code style guidelines and common documentation for your team mates.
+
+Finally, code quality depends on development process.
+
+If you want to improve code quality, you should monitore development process like your system. 
+You cant correctly change development process with actual and complete feedback. How many steps in development you have? 
+How to change some features? Where documentation placed? Who changes it? How your development process reacts on bugs & troubles in production?
+There are a lot of aspects of code quality management and if you want to do it, 
+you should read familiar papers and books (as "Code Complete" by Steven C. McConnell, "Clean Code" by Robert Martin, "Refactoring" by Martin Fowler etc.). 
+In this standard we pay attention only on some aspects of code quality.
+
+4.1. Linters & Automatization
+
+If you have code style guides already, you may think about automate code verification for style guides conforimity.
+So, you can do it with CI/CD and some plugins & tools (as checkstyle). 
+In addition, you can add linters that will run static analysis on your code and prevent bugs as soon as posible. 
+Install and configure it will be cheaper than missed troubles and fix it in hot fixes. 
+
+You should configure your linters to give not so much errors (otherwise developers will be just ignore it). 
+Step by step you can increase inspections counts and improve your codebase.
+
+You should automate your unit tests running, but some legacy solutions have no ability to do it 
+(maybe you should create your own product to do it, if you depends on legacy software?).
+
+4.2. Code Review process
+
+All good developers should use code review in their development process. 
+Code Review is a process when someone else will check your merge (pull) request before accept changes. 
+If you have only one developer, you can do code review with manager/tester. 
+Or you can do code review in one day after create merge request.
+
+You should create small commits & small merge request if you want to get maximum benefits from review process. 
+Reviewer should analyze whole solution from design to implementation, so big changes will be big problem and reviewer can miss some troubles.
+
+4.3. External Consulting
+
+Sometime to analyse and improve your code quality you can invite some external consultant and do processes audit, 
+get recommendations or courses for your developers. 
+It can be helpful in long distance but it cannot help you with current problems.
+
+The best way to transfer experience with other teams is communicate on conferences & meetups and communities. 
+In the other hand, to improve some competence, you have to buy special courses/books/lectures.
+
+4.4. Software Testing (QA)
+
+Software Testing is a key process of product quality maintanance. 
+You should dedicate Quality Assurance Department and build good processes for testing and quality verification.
+
+You should build testing process over all other development processes (from requirements collection to release delivery).
+If you hire good Quality Assurance Engineer, he can save you a lot of money and reputation.
+
+Pay attention for next Quality Assurance details:
+1. QA should have direct communication with development department, management, community management
+2. QA should works with documentation and create testing documentation (as test plan, test design, test cases)
+3. QA should works with effective tools (bug reports systems, project managemenet systems, UI testing tools, Game testing tools) 
+- you should automate testing process
+4. QA should spent time mostly on research testing and maintain test documentation & automation scripts (automated documentation) for routine tasks
+
+5. Development Lifecycle
+
+Development lifecycle is a management model of development process. 
+In real life, every development process unique and cannot be fully reproduced in some other situation and some other team. 
+But we have some models that describes keys signs of development.
+
+5.1. Waterfall
+
+Waterfall is incrimental but strict staged lifecycle. You have some dedicated stages and you can walk forward and backward, but mostly you moved in one way.
+
+It has next stages:
+1. Requirements
+2. Design
+3. Implementation
+4. Verification
+5. Maintanance
+
+You can get requirements and move forward to design and implementation, 
+but for some reason back over to requirements collection and again move to design and implementation stages.
+Waterfall model is good for well predictable projects and fits for internal infrastructure & tooling development processes. 
+But it works not so good for bad predictable cases when reaction speed is too important.
+
+5.2. Agile
+
+Agile is a basics principles of software craftmanship. It has a lot of frameworks and approaches that following agile principles (i.e. XP, Scrum etc.)
+
+You should learn about it probably it will be perfect model for your main game product.
+
+Common principles are declared in agile manifesto:
+Individuals and interactions over processes and tools
+Working software over comprehensive documentation
+Customer collaboration over contract negotiation
+Responding to change over following a plan
+
+The main topic of agile for understanding is about flexible and fast reacts on external changes.
+In this standard we will not tell a lot about it, you should read some books and implement your project development by agile 
+because it is the base for all others quality assurance procedures.
+
+5.3. Other
+
+There are a lot of non software approachs to develop products. For instance, you can use ad hoc scenario (without processes and documentation at all) or use users  driven techniques, but it works bad in game development despite the simplicity.
+
+6. Documentation
+
+Documentation is the most underrated thing. You shouldn't make documents for documents, but you should create and maintain documentation for make processes easier.
+
+Documentation is extremly helpful for Quality Assurance Department. It helps you manage quality, describe processes and product & subprojects state in common language.
+If you have complete and actual documantation, you can use one language for communication, you make onboarding easier and processes transparent.
+
+You shouldn't use too strict format for documents to prevent overcomplication: the best code documentation is a good automated tests suite.
+
+Minimal package of docs: 
+1. Product Documents - describes product mission, goals and roadmap. Contains main info about game as such.
+2. Quality Assurance Documents - test plan, test design, test cases, automated test suites - package of verification & testing process description
+3. Guidelines & Internal information - onboarding documents like wiki, internal processes description, team roles description etc.
+4. User Guides & Manuals - help tips in UI, video & graphics, manuals in forum etc.
+
+6.1. Product Documents
+
+The best way to start product documents is create projects business planning documents (see PMBOK), but if you have no time and wish for it, just start describe main structure of game mechanics in some documents. You can use it in other docs as common info.
+
+You should describe all systems end-points and high level data flow ways. It can be helpful for security purposes.
+There are some specific games documentation types, described in Jesse Shell book "The Art of Game Design":
+
+1. Game Design Overview - main goals and game functional. Big picture of whole product.
+2. Detailed Design Document - detailed description of all game mechanics, interfaces. It can help you compose features easier. The most helful for Game Development Projects.
+3. Story (or Stories) Overview - short description for each quests / events. It can be helpful for external workers (copywriters, external game designers, modellers etc.)
+4. Technical Design Document - architecture, technical design documents. You should have high level view of techical design and trade-off to prevent critical mismatches.
+5. Pipeline Overview - document that describes integration building. For instance, how GUI designer can change button color. In small teams it can be redundant, but helpful for big. The main rule for documentation that is communication tool (if you have 1 designer and 1 developer, maybe they should discuss problems directly?)
+6. System Limitations - description of tecnical limitations. 
+It should contains user system requirements & limits for graphics, modells and game objects. 
+You must know how many concurrent players can play online, how many users can stay at one area without problems, how many cars you can put for PD in your game.
+You should use profiling tools & loading and stess testing for different workloads to get this information.
+7. Art Bible - high level guidelines, overview and interface layouts.
+8. Concept Art Overview - documents for investors, future players and stakeholders, Development Game Project specific document.
+9. Game Budget - internal financial document. It can be critical neccessary for risks analysis. You should describe financial limitations, expectations of your product to do correct balanced decisions.
+10. Assets Tracker - your agile burntdown charts. Progress indicator, that helps monitor your development processes.
+11. Product Schedule - time expectations & responsibility matrix. You can have it in your project management system (i.e. OpenProject)
+12. Story Bible - main story description (if you have it) that helps coordinate quests with main story.
+13. Script - dialogs and logic description for NPC in quests.
+14. Game tutorial and manual - common info about game and how to's. The Wiki is a good candidate for it.
+15. Game walth-throught - you should write one simple walth-throught for each your quests. It helps get information about UX.
+
+6.2. QA Documents
+
+Quality Assuranse Department should create specific documentation to provide complete information about quality.
+See ISO/IEC 29119 to get more info about test documentation.
+
+There are next types of QA docs:
+1. Test plan - overview of testing strategy. Provides information about QA desicions and trade-offs. You should change it if you think that your QA Department works not enought effective.
+2. Test design - the tree (or big picture) of current test cases state. That document provide information about current QA state.
+3. Test cases - concrete test cases that can be described in text or program code (that much better).
+
+6.3. Guidelines & Internal information
+
+You should provide good complete information for your team to get effective high quality work. 
+Pay attention on onboarding process, code guidelines, support scripts, responsibility matrix.
+Internal documents should describe fatal troubles and action plan for difficul situations.
+
+6.4. User Guides & Manuals
+
+We have already Game tutorian and manual in our product documentation. But it can be too anemic and dry (it should be). 
+The second part of user guides is practical guides that focused to players experience, not for product as such.
+You should add help tips into user guidelines, short & effective video guides and forum manuals.
+
+There is a good practice to get users feedback about user guides. You must maintain it as well as you can.
+The worst nightmare is user guidelines missmatch (when your guides outdated and leads users to fail path).
+
+7. Technical Feedback
+
+Technical Feedback is all about users trust. How you respond your users about problems? Do you trust them?
+
+You should provide complete but secured information about system state and helps users if they have some problems.
+There is a good idea to show users some systems state monitoring (in anemic and simple UI of course, you shouldn't give them your Grafana dashboards).
+
+7.1. Support Department
+
+Your support department typically will provide two services: game help and technical help. You should minimize game help by writing good user guides, automatic helpers, complete F.A.Q., community guides etc. But you shouldn't give up technical support.
+
+There are some rules for good technical support:
+1. It should be easy to contact technical support. (for user)
+2. It should be easy to filter, group and aggregate tickets. (for support engineer)
+3. Your technical support should reacts as soon as can. (max time 24h, average max 30m)
+4. It should be available to alert development department from technical support in fatal cases. (for support engineer)
+5. Your technical support should create correct, complete bug reports as QA.
+6. Every bug reports from technical support should be described in product documentation (as test case or risks).
+
+7.2. Postmortems
+
+Sometimes your system failed despite of all bariers. If you want to have devoted audience, you should trust them your mistakes.
+When fatal troubles happens, reacts on in as fast as you can. 
+Short description of leaks/system fails/ddos attacks will be helpful for your players to manage their time and take some actions as soon as posible.
+
+After troubleshooting you should write public postmortem. 
+You shouldn't avoid of responsibility, postmortem should demonstrate that you get a lesson and next time it never happend.
+
+Concluding, the stability and reliable is about trust: how to build trusted system, how to build trusted processes, how to build trusted products.
+
+		B. Security, Perimission, Access
+
+Security is one of the difficult topic for games development.
+There are balancing and risks definitions problems.
+You should maximize your security process efficiency: simple methods with strict and straightforward rules will give your maximum benefits.
+Avoid of overengineering! 
+There is a trap when you think that difficult systems, rules and processes will give you security, but in you get new vulnerabilities instead.
+
+Remember: security is a process, is not a system snapshot property.
+You must maintain your security processes, principles and rules.
+If you have enought money, maybe you should hire dedicated specialist to do this job.
+
+Remember: security overhead is a vulnerability.
+Security documents should be used just as communication language.
+It's shouldn't take huge overhead for development, operations & business processes.
+
+Cheapness and high efficiency are good security process properties.
+
+1. OWASP & Principles
+
+There are a some simple principles of secure systems design:
+1. Untrusted outer world - all information from outer world should be verified and validated.
+2. Whitelist validation - you should validate data for correctness, not for errors (use white list rules instead of black list rules)
+3. Permissions verifying on end-points - you should verify output data and outer consumer for correct rights.
+4. Data deletion policy - delete only really unneccessary data that cannot be useful in any cases (in error cases too) and mark it in the other cases.
+If you have audit, you probably shouldn't delete data at all.
+5. Logging - you should log all significant actions with data and description information.
+6. Minimize permissions - you should miminize available permissions for users & team members (but remember about zero processes overhead!)
+7. Preventive - security process must prevents attack before it happend.
+
+OWASP - Open Web Application Security Project
+
+OWASP is a complete project with a lot of useful standards, principles, tools and vulnerabilities description.
+You should know about it if you want develop safety and secure software applications.
+OWASP has ASVS standard that can help you design your application.
+
+The most popular OWASP work is vulnerabilities top-10 (at 2020-2021) (owasp.org/www-project-top-ten):
+1. Injection
+2. Broken Authorization
+3. Sensitive Data Exposure
+4. XML External Entities (XXE)
+5. Broken Access Control
+6. Security Misconfiguration
+7. Cross-Site Scription (XSS)
+8. Insecure Deserialization
+9. Using Components with Known Vulnerabilities 
+10. Insufficient Logging & Monitoring
+
+You should read about it all and verify that your system protected from mostly common errors at least.
+
+2. ISO 27001
+There are a lot of security management standards that helps you find good solution for security risks control.
+On of them is a ISO 27001 that describes company security. 
+You can buy that standard or see regional translated free alternatives and get certified if you need it (and you have time and money for certification).
+
+One of the central ISO 27001 point is ISMS (Information Security Management System).
+
+2.1. Information Security Management
+
+ISMS is a compex of processes, tools and rules that helps you manage information security.
+There are a lot of software products compatible with ISO 27001 that provides a lot of useful information security management features.
+
+3. Database Security
+
+Database is the central information storage. So, is the most important to protect database for external attacks to prevent fatal damage.
+You should know your database. If your developers has no experience with it, you should buy them a course or consultancy.
+
+3.1. Credentials
+
+There are many ways how applications would be connected with database.
+For instance, some database provides bypass way. You mustn't use it on production!
+Use password (hash-based) or certificate key way.
+
+You can save your credentials in configuration files or secrets storage (i.e HashiCorp Vault).
+Pay attention: you should use SE Linux or some other Linux security access tools to prevent leaks.
+
+Don't use default / simple credentials for database 5. Replication & Reliable Infrastructures
+connect.
+
+3.2. Schemas 
+
+Many RDBMS use public schema as default. It means all information about data structure will be available for each database user.
+You should move private information (as paymants, user information etc.) in dedicated schemes with special rights (i.e. write & read only for payments).
+You can move some information in the other databases. It can be useful for caching, event sourcing modules, dedicated submodules and other.
+
+3.3. Some attributes
+
+There are some attributes that will be helpful for each database row:
+1. Created by - creator name/login/id
+2. Created at - creation timestamp
+3. Updated by - last updater name/login/id
+4. Updated at - last update timestamp
+5. Deleted by - deleter name/login/id
+6. Deleted at - delete timestamp
+7. Version - optimistic locking version
+
+4. Authorization & Authentication
+
+Authentication is the process of matching actual and expected credentials.
+Authorization is the process of permissions validation and rights realization.
+
+You should organize that processes with all needs that can exists in your product in present and future.
+
+4.1. Cryptography
+
+You must save all sensitive credentials (passwords, keys, codes) in hash projection.
+There are some reliable hashing algorithms you can used for passwords saving with salt: bcrypt, scrypt. 
+But you can use some more strength hashing algorithm if you need it. 
+Of course, hashing should be used on serverside.
+
+You should use reliable channels for credentials communication. (i.e. TLS)
+If your main channels (i.e. data syncronization / streaming) are not safe, you can use temporary tokens for authentication.
+
+You can use cypher algorithms for textual information that sends through unreliable network. 
+It shouldn't be static and must regenerate code parts based on temporary parameters (i.e. time or client hardware).
+
+4.2. Password policy
+
+You must has password policy document. 
+ISO 27001 standard contains information about password policy requirements, so you can use it as reference for password policy.
+
+There are some principles for users and team passwords:
+1. 8 symbols and more
+2. both cases in literals
+3. at least 1 special character
+
+4.3. Leaks & Trust
+
+You must manage leaks. If you give some team member access to sensetive information, there is a leaks probability.
+So, you can manage it with ISMS and serurity office.
+
+You should protect your data with your local low: only legal workers should have access into your production systems.
+Assets security should based on trust management. You can do it with HR management & team management.
+Human trust based on people monitoring, two way feedback and communication.
+There is a risk of social engineering and internal attacks, so you must consider it as risk.
+
+There are useful management procedures that helps you manage trust:
+1. one on one meeting
+2. performance review
+3. competence monitoring
+4. problems review
+
+4.4. 2 Factor
+
+You must provide availability to add 2 factor for authentication.
+You can use Google Authenticator for implement it.
+If technical opportunities allow you identify client device, you can remember it for 15 days at most.
+
+Critical and sensitive information must be protected with two factor authentication, the product critical information specially.
+
+5. Audit & Rights
+
+You should verify your full system security with some determenistic frequency.
+It means audit and granted rights validation.
+
+Audit process requires complete information logging about sensitive data events.
+It means you should implement some constraints in architecture and product to provide reliable reports.
+
+You should save settings changes events, server access logs, rights grants and permissions changes. 
+
+5.1. Code Development
+
+Code development is the main source of backdoors.
+To protect system from collusion attacks, you should use some procedures that minimize risks:
+
+1. Cross review - if you have several development teams, developers from different teams should review foreign code sometimes.  
+2. Internal rotation - good software developers must be capable of several product domains. 
+You can rotate team members, it prevents backdoors and can give your developer new experience.
+
+5.2. External Audit 
+
+Some standards & certification centers requires external audit (i.e. ISO 27001) to prove your requirements conformity.
+Don't overuse it and be careful with certification overheads.
+
+Remember that processes overhead is a potential vulnerability.
+In addition, every information sharing has leaks probability, so external audit can just worsen the situation.
+
+6. Other Access Ways
+
+You can use some specific access ways for authentication & authorization. (SSO, OpenID, OAuth etc.)
+Some tools provides additional features and may be helful for audit, risk management, resources routing and other.
+
+6.1. SSO
+
+The Single Sign-On provides you single point for authroization & authentication.
+You can implement your own SSO software (as service) or use ready solutions as LDAP.
+
+SSO is extremely helpful for internal workers rights management. 
+If you use SSO, you can turn off accounts in one place (i.e. for dismissal of employee) and be sure that you don't forget some services or resources.
+
+Another way to use SSO is provide your players ability to sign via external services. (as Google, Facebook etc.)
+You have to use OAuth protocol in that case (pay attention on OAuth versions, is fully incompatible)
+
+6.2. Source of Truth
+
+If you have resources and assets you have to maintain access for all of them.
+Sometimes you have to share a lot of passwords, keys, certificates and other access information.
+
+If you can automate all your processes and no human need has access for resources & services, you can use only secrets storage solutions. (i.e. HaskiCorp Vault) 
+In the other cases you must use corporate level passwords managers (i.e. Bitwarden & bitwarden_rs - rust implementation (but without audit certification!)).
+
+7. Permissions
+
+Some system components & services may serves multiple type clients.
+So, you can choose different strategies for granting permissions.
+
+7.1. Levels Model
+
+Levels Model is a popular way for grant permissions in some simple situations. (for in-game guilds, clans, helpers and so on)
+That model assumes permissions splitting for levels. Each permissions level contains previous and expand with some (or no one) addition permissions.
+
+In theory, if your permissons can be naturally splitted by levels, you should use that model.
+Levels model is a simple abstraction with easy implementation and management.
+
+But permissions in real applications mostly has no natural order because represents access for ortohonal functionals.
+For instance: players banning, game objects manipulation, events & actions, reports handling, players spectation are all ortohonal functional without correlation between each other.
+
+7.2. Roles Model
+
+There is a good idea to group some permissions in bucket and name it with adequate name.
+You should use that model for most cases because is the best reflects the real world.
+
+There are some different srategies of permissions groupping:
+1. Atomic - one role for one functional - too annoying and noiseful. 
+(i.e. banning, spectating, game events, reports handling etc.)
+2. Domain Roles Driven - roles represents business domain roles - good for most cases. 
+(i.e. player, game administrator, system administrator, ad partner etc.) 
+3. Domain Slices Driven - roles represents big slices of domain - more adaptive than 2 and simpler than 1. 
+(i.e. registered, feedback responsible, modelling responsible, clans configuration responsible etc.)
+
+7.3. ACL Model
+
+The most adaptive, but the most noiseful and not recommended model is Access Control Lists model.
+It means you will control every single permissions manually and grant it independent.
+
+The best way is combine different strategies as you need.
+But remember that every complication must be justified!
+In most cases Roles Model is enought.
+
+		C. Critical Information
+
+There are some points that may be critical for your product.
+Typically the critical points contains business mandatory features (that makes system sense, brings the main income).
+It named System Business Value Source in this standard.
+
+You should care about that points at most.
+You must keep it secure and safe as strong as you can.
+
+1. Payment Processes
+
+The most popular games monetization feature is donate system or game valuables trading.
+So, it means you have payment subsystem / integration as critical point.
+
+There are some requirements for payment feature:
+1. You must save payments information in long term storage.
+2. You must verify all incoming payments for correct values.
+3. You must give write & read access only for all payments subsystems storage users (administrators, managers, services, subsystems etc.) (without edit / delete)
+4. You should analyse payment communication formats and create robust architecture & implementation for it. 
+(you can use XP with TDD, create dedicated reliable QA strategy with different acceptance tests, mutation testing and other advanced techniques for it)
+5. You should use trusted payments service provider. But vendor locking is a bad idea. (robust but adaptive tactics may be better)
+
+2. Granting Permissions
+
+You should control your granting permissions process.
+Permissions granting logs is the most important information for audit & social engineering security.
+
+So, you can use different granting process types:
+1. One Granter - one team member who has granter permissions (i.e. admin) will grant permissions for others.
+Good enought for simple situation without sensitive information & access.
+2. Automatic Quorum - 2 steps of granting: request by voter & validation by some reviewers. Grant permissions only when enought team members voted for it.
+Good for flat team structure.
+3. Different Responsibility - split granting for some responsibility: a) grant role b) grant permissions
+Good for multilayers team.
+4. Full Escalation - only requests that escalates to next level. 
+Upper level team member validates requests, package it and escalate upward until product owner / director accepts / deny whole package.
+Good for sensitive data, but too much overhead.
+5. Adaptive Escalation - execute some granting requests immediantly and escalate reports and random/policies-based permissions granting. (i.e. based on frequency)
+
+You can develop your own way for granting permissions.
+Pay attention at:
+1. SSO - permissions granting process should place in one place.
+2. Audit - permissions granting processes should be available for periodically audit. Some strategies requires it. (like 'One Granter')
+3. Logging - permissions granting processes should be reliable logged.
+4. Trust & security management - permissions granting processes should be consistent with trust & security management (maybe you should integrate it ISMS).
+Security incidents analysis will be based on permissions granting & responsibility tracing information.
+
+3. Logs & Alerts Policy
+
+You must have robust & trusted logs and robust & trusted alerts for sensitive and System Business Value Source features.
+
+Logging & alerting are full of trade-offs. You should track information that will be read by human.
+That why tracking depends on business domain & values.
+You shouldn't track all modules with same policy. Tracing policies should reflect business values.
+
+There are many tools & systems for logs analysis and you should be able to use it. (i.e. ELK stack)
+
+Pay attention at tracing information:
+1. You should trace timestamp in correct format. (in one time zone)
+2. You should trace incidents in WWW format. (like test case) (Where, What happened, Why there is a mistake)
+3. You should trace navigation : service name, server IP, POD ID and other depends on your architecture.
+4. You must escape sensitive & personal data (names, emails, keys, tokens etc.)
+
+4. Event Sourcing
+
+There are some good architectures for critical, reliable and fault tolerance solutions.
+That architectures are good candidate for System Business Value Source modules.
+
+If you want to get robust business, your product & financial flow should be robust.
+But you don't need to make all components equaly reliable. (it can cost too much)
+
+One of the good architectural pattern is event sourcing.
+Event Sourcing means you should save information in events view and save it forever.
+So, your system will not execute delete or edit changes in events storage.
+To use information from event source, you have to create and update snapshot with events replay.
+
+4.1. Events Driven
+
+Events Sourcing are good for Actors systems (like Erlang/OTP, Akka and other). Some of them implements good API for Event Sourcing persisting.
+You can use it in other systems too (with well-known RDBMS), you just should implement it by yourself.
+
+There are Events Driven systems that can be easy integrate with Event Sourcing. (i.e. reactive systems with good interactive for soft real time apps (as games))
+
+4.2. Source of Truth
+
+If you have different databases (event sources and CRUD snapshot) for same data (i.e. one for save data and one for current snapshot), you can have bad problem with desynchronization.
+So, you have to choose some database as source of truth. At most cases event sourcing storage are better for it.
+If you choose it, you should implement re-plays operations and do it when your system indicates that CRUD database is in inconsistent state.
+
+Sometimes you cannot use Event Source as source of truth and you have to use current shapshot for it.
+So, you can get more difficult synchronization procedures.
+For instance, you can implement synchronization daemon process that will create sync events in event sourcing storage every time when it will starts and indicate that snapshot has new state.
+But mostly you don't need to do it. You can just use event sourcing for loggin or replays and provide consitency with other techniques.
+
+4.3. CQRS
+
+There is a good way to organize your data communication - CQRS.
+CQRS means command-query separation. You should separate you reads and writes to implement CQRS.
+So, it solves some problems (event sourcing storage will be source of truth) with choosing source of truth and provide you abilities to build reliable & distributed systems.
+It has some problems with write & reads reordering: some difficult solutions can has race conditions of it.
+So, you should think over all core aspects before implements CQRS. Maybe you cant use it in some cases.
+
+5. Scalable & Reliable Infrastructure
+
+If you develop big product or think that your product will grow up, you should care about scalability.
+Some technologies provides built-in utilities that can help you with logic scaling, but you should care about infrastructure scalability by yourself.
+
+The most important point is thinking about scalability at architecture time, infrastructure is only base.
+You cant build good scalable product without complex approach. 
+
+There are some platforms that provides nice and easy ways to scale your application, based on Actors model.
+
+5.1. Actors Model
+
+Actors model is good for distributed & asyncronuous systems.
+Actors are computing primitives communicates with messages with (or without) internal state.]
+Some actors can create and rule other actors. You should read about it to get more complete knowledge.
+
+Actors Model was founded with OOP as source. (first Alan Key version, nearest with Smalltalk implementation, not C++ or Java way)
+So, you can think about actors as domain business objects.
+
+There are good ready actors model implementations: 
+- Erlang/OTP (or pretty Elixir), 
+- Akka ecosystem (based on JVM, multilang), 
+- Pulsar (JVM, C#, Python etc.), 
+- rotor (C++), 
+- Orleans (.NET) 
+
+Actors model are good for most cases, but has some problems that may be critical for not very experienced developers. (as debugging, monitoring, profiling, troubleshooting)
+
+5.2. Microservices (containers & solutions)
+
+You can split your application to sub-applications and name them services/microservices instead of splitting it to actors.
+That means you can use standard stack and encapsulate some business logic into complete applications with database, middlware and even GUI.
+
+If you build your application with microservices, you will get some common problems as building and deploying, orchestration, discovery and other.
+You can solve them with orchestrators (Kubernetes), containers (Docker or Podman), service discovery tools (ZooKeeper) and other.
+
+That means your technology zoo will be difficult and you have to maintain it. 
+Remember that services architecture are more difficult than monolit because add you another control layer between applications.
+
+There are some solutions that provides more specific services-way (i.e. SOA-way).
+For instance, some solutions based on EIP (Enterprise Integration Patterns) as Apache Karaf, Apache Camel and so on.
+It good for enterprise applications, but too difficult for games, so you shouldn't use it: common way (k8s-based) will be better.
+
+5.3. Serverless
+
+Serverless is a extreme alternative of microservices with some details from actors.
+In serverless you should split your application in atomic functions without state, write it with special (sometimes vendor-specific) SDK and deploy on cloud providers serverless hosting.
+When your application (users from GUI, another functions or some dedicated 'serverfull' module of your application) will call serverless function, provider will create new function instance and route call to it.
+
+Serverless can save some money because provide more adaptive way for scalability, but it can be bad for some latency-critical modules. (as players synchronization)
+
+You should think about all aspects in design time. Can you move some of your servers in different datacenters? Countries?
+Explore your base network protocol & target game domain, maybe it cannot be scaled.
+
+		D. Common Topics
+
+1. Departments & Intercommunication
+
+You should have simple, understandable and transparent team structure.
+Avoid of unneccessary bureaucrasy: you must reduce all overheads on the way.
+You can use round table as team model but it good for well-qualified employees only.
+Another way is segregate layers & branchs.
+
+Create departments based on work needs.
+You need develop software? Create development department.
+You need well-crafted product with high quality? Create QA department.
+Every department must contains at least one worker. And worker can be in several departments.
+
+Departments segregation has some problems, the biggest one is discommunication.
+When you segrate employees in different departments, they can start separating from other departments and shifting responsibilities.
+
+1.1. Principles
+
+You should create departments based on trust.
+It means you and other departments will trust some responsibilities to new one.
+So, you should get feedback and analyse trust state and answer the question everytime: trust is justified now? 
+
+You should support internal initiatives and have fair promotion system.
+
+1.2. Delegation
+
+Trust should be bi-directional relationship. It means if you trust your team, your team will trust you.
+So, avoid of micromanagement and overcontrol. (it obvious if you fighting overhead)
+You can delegate mostly sublayers tasks.
+
+If you works on strategy, you can delegate tactics.
+If you works on architecture, you can delegate detailed design and implementation.
+
+Found on responsibilites when you planning your work. Managers should just facilitates works, they shouldn't be aware of all implementation details really.
+
+1.3 Employee Motivation
+
+Manage your employees motivation. 
+If your employee works in internal boring code with tons of legacy and have underpaid, he will quit soon, be sure.
+And you will lose in that situation, he will never back again to work with you because it unfair behaviour.
+
+Motivation management is a key to have robust and productive team.
+Only well-motivated people can create good products.
+
+So, you should create some analytics metrics for motivation monitoring. 
+Create competence matrix, motivation plan to manage motivation dynamic. 
+Your workers should be confident in their future.
+One on one, performance reviews, promotion meetings can help in motivation managements. (remember about minimum overhead)
+
+2. Infrastructure
+
+When you decide to open your game for public, you should choose deployment infrastructure.
+It means you should plan budget, deployment pipeline, monitoring strategy etc.
+You can build your own infrastructure or use some ready services.
+
+2.1. Infrastructure Providers
+
+You should use only robust and reliable providers. Get licenced solutions with real SLA.
+Provider without good monitoring cannot provide you any SLA, if he has 'SLA' on site, it just a marketing bullshit.
+SLA based on SLI (Service Level Indicator) and SLO (Service Level Objectives).
+So, no one cant provide you SLA without concrete SLI and SLO. (it impossible to achieve undefined goals) 
+
+Ask your provider what his SLA means. What indicators he uses, what objectives he target at.
+If he cant answer this questions complete, his SLA just a marketing bullshit.
+
+2.2. Internal Tools & Products
+
+When you start develop your own tools, products, infrastructure components and other side-solutions, you should be sure that you can maintain it.
+If you cant, you should use some 3rd party alternatives or get qualified outsource or even consultancy.
+Don't avoid difficult solutions removing. You should minimize overheads and refuse of trash.
+
+It will be better to develop small tools with small responsibility that easier to maintan and replacement.
+You can build your own CLIs, bash scripts, internal microservices, but you shouldn't create your own kubernetes.
+
+2.3. Cloud Providers
+
+Cloud providers has good features that can be useful for some solution parts.
+It probably not compatible with latency critical solutions because networks overheads.
+Remember about overheads, network problems, locality benefits.
+
+There are some nice cloud solutions that will be useful for all projects as cheap s3 storage, scalable web-site hosting or CDNs.
+But some of theese cannot be used in games. (it probably hard to get good latency with serverless synchronization)
+
+Remember about cloud providers lock-in. If you use too specific features, it will be difficult to refuse of them.
+For instance, serverless SDKs are typically (but not always) incompatible.
+
+2.4. Vendor Locking
+
+You must avoid vendor locking as well as you can.
+Remember that your platform may cause locks too. 
+Use clean architecture instead of some built-in features if you want to get clean portable solution.
+
+If you cannot refuse of vendors solutions, you must maintain points of integration.
+It means documents behavior, unordinary features and other specal information about your vendor.
+
+3. Team Tools & Software
+
+3.1. Messengers
+
+You can use different messengers for work, but some of this has advanced features that will increase your productivity.
+There are some requirements for good corporative messangers:
+1. It shouldn't be personal messanger. (you must separate personal life and work)
+2. It should have dedicated channels / rooms.
+3. It should have discussion threads (dedicated discussion for message in channel)
+4. It should have access management (permissions)
+5. It should have API for integration
+6. It should be safety and secured
+
+There are some good messengers for teams: Telegram, Slack, JetBrains Space (more than just messenger), gitter and other.
+If you want to use different messengers for different purposes, you can integrate it. (i.e. with matterbridge software)
+
+3.2. Project & Product Management
+
+There are software to manage projects and products development.
+It helps you with your pipelines, strategies, planning and activity monitoring.
+Some of theese have time tracking & 
+You can integrate it with BI tools for big projects to get more advanced data analytics.
+Some of them can be integrated with helpdesks.
+
+There are project management tools: OpenProject, Atlassian JIRA, JetBrains YouTrack.
+
+3.3. Help Desks
+
+When your team grow up and you got a lot of users feedback, you should manage technical support with some systems.
+There are some help desks for real world IT departmenets, enterprise products support and other systems that useful for b2b business.
+Some of them can be used for b2c technical support or be customized to used for that purposes.
+You can use osTicket for support, it has email supports, dashboards and other features.
+Another way is use forums topics and create and manage tickets into your project management or bug report tools.
+You can choose your way depends on your needs.
+
+3.4. Bug Tracking
+
+Bug reporting tools is a project management ancestors. It based on tickets system too and provides you basic functional for track issues.
+There are a old-fashioned bug tracking systems like BugZilla.
+You can use it instead of project management tool in pair with more lightweight management tools like Trello (kanban desk) or Pivotal Tracker.
+Another way is use it in pair with complete project management tool just for some users to reduce costs, but it may be overhead. 
+
+3.5. TMT
+
+TMT - Tests Management Tool
+
+Test management tool is a neccessary software for QA department. It contains main test documentation - test cases.
+So, you should use TMT to get good quality assurance experience.
+There are many TMT tools. Some of them are:
+1. Zephyr - good for Jira users.
+2. TestLink - popular opensource TMT.
+3. FitNesse - nice test cases wiki and ATDD tool that you can use as TMT.
+4. TestRails - complete TMT.
+
+You should choose some TMT depends on your needs and experience.
+Pay attention at tools ROI. Can you get benefit for your spents?
+
+3.6. Wiki
+
+Wiki is a complete software to share internal information. 
+There are some tools with spaces segregation, documents versioning and other features.
+It can be helpful for any medium or big teams.
+There are products you can use as wiki:
+1. GitBook - good for opensource & development only teams.
+2. Atlassian Confluence - good for big teams with big budgets.
+3. Notion - simple and cheap tool.
+4. MediaWiki - robust & mature tool, good for stable documents (with rare changing).
+
+You should pay attention to next requirements:
+1. Changing Frequency - how often you will change info in wiki?
+2. Read Frequency - how ofthen your wiki will be read?
+3. Access management - can you manage permissions enought?
+4. Data storage - what type of database your wiki system use? 
+Do you want to restore your history data?
+
+3.7. VCS
+
+You should use VCS (Version Control System) for some purposes.
+Of course, your developers should use VCS for code development (as git or mercurial) with central repository.
+But you can use VCS for some other purposes: configurations, documents, reports, copywriting and so on.
+
+Git is the most popular and standard VCS at now.
+
+3.8. ISMS
+
+ISMS (Information Security Management System) is a software for security company policies management, incidents management, security monitoring and analysis.
+The most popular ISMS are based on ISO 27001.
+If you don't want to be certified by ISO 27001, you probably should use free software instead of big enterprise products.
+There is a good opensource ISMS - Verinice. It is ISO 27001 compatible and has simple GUI.
+
+4. Marketing
+
+There are two types of software development companies marketing:
+1. Product Marketing - for end users
+2. Recruting Marketing - for potential employees
+
+Current standard has some titles of Product Marketing
+
+4.1. Advertising Problems
+
+There are some actual problems in marketing for games:
+1. Effectiveless projects - huge budgets produces huge risks
+2. Reputation fails - untrusted users (players, b2b risks)
+3. Incomplete strategies - only one reason to play
+4. Non product approach - development works bad with marketing
+
+4.2. Advertising Solutions
+
+You should get good metrics for your advertising. 
+You can use commercial CRMs or build your own solution to monitor contractors KPIs.
+There is some important thing is develop product instead of bubble, so you should have your ad budgets under control.
+
+You shouldn't use aggressive strategies if you want to have small reputation risks.
+It can be fatal for some operation processes if you have reputation problems.
+If you want to use all your probabilities, you must reject all aggressive ways.
+
+There is only one way to have complete strategy: maintain marketing documents and KPIs.
+If you big and have dedicated marketing department, you should use ECM or CSP for it.
+
+If your marketing doesn't works with developers in one team, you should define marketing product approach and change your processes to use it.
+It means your marketing and development departments should work with product instead of ad banners / bloggers integrations etc.
+
+Sometimes you can invite external auditors & consultants for marketing troubleshooting.
+
+4.3. Community Management
+
+There is a necessary product improvement process is feedback analysis. 
+You should have stable feedback loops and strong analysis.
+
+The most dangerous problem for multiplayer games is strong little groups & reverse discrimination.
+Your product should has determinated target audience (you should write it in your plan or mission docs) and complains with their needs.
+But sometime small groups of players can start give you too much useless feedback and shout on every decision that affects their specific needs.
+You should control that with strict feedback analysis rules and system approach to prevent reverse discrimination inside your audience.
+
+4.4. Development Communities
+
+Sometimes you have to hire developers or ask help from outside.
+You should build good HR brand and communicate with developers & game designers from other companies or product teams.
+
+There is a good way to contribute in game development community is sharing your experience in blogs/meetups or participate in communities discussions.
+For instance, you can participant in MGPPQS standards improvement.
+
+7. Criteria
+
+-- TODO --
+-- Check list or target metrics ? -- 
+-- TODO --
+
+8. Links, Materials & Attachements
+
+Amazon s3 storage service : aws.amazon.com/ru/s3
+Ceph object storage : ceph.io
+OpenStack cloud software : openstack.org (swift component is a object storage)
+Jenkins CI/CD : jenkins.io
+Travis CI : travis-ci.com
+JetBrains TeamCity : jetbrains.com/teamcity
+Grafana : grafana.com
+Prometheus : grafana.com/oss/prometheus
+Rclone : rclone.org 
+Docker : docker.com
+Podman (replacement of docker) : podman.io
+dbciupdater : github.com/SevDan/dbciupdater
+Flyway : flywaydb.org
+checkstyle : checkstyle.org
+OpenProject : openproject.org
+HashCorp Vault (secrets storage) : vaultproject.io
+Kerberos protocol : tools.ietf.org/rfc/rfc4120
+Bitwarden : github.com/bitwarden
+bitwarden_rs : github.com/dani-garcia/bitwarden_rs
+ELK : elastic.co/what-is/elk-stack
+Erlang/OTP : erlang.org/doc
+Akka : akka.io
+Pulsar : pulsar.apache.org/en
+rotor : github.com/basiliscos/cpp-rotor
+Orleans : dotnet.github.io/orleans
+matterbridge : github.com/42wim/matterbridge
+Telegram : telegram.org
+Slack : slack.com
+JetBrains Space : jetbrains.com/space
+gitter : gitter.im
+Atlassian Jira : atlassian.com/software/jira
+JetBrains YouTrack : jetbrains.com/youtrack
+osTicket : github.com/osTicket/osTicket
+BugZilla : bugzilla.org
+Trello : trello.com
+Pivotal Tracker : pivotaltracker.com
+Zephyr TMT : getzephyr.com
+TestLink : testlink.org
+FitNesse : fitnesse.org
+TestRails : gurock.com/testrail
+GitBook : gitbook.com
+Atlassian Confluence : atlassian.com/software/confluence
+Notion : notion.so
+MediaWiki : mediawiki.org/wiki/MediaWiki
+git : git-scm.com
+ISMS Online (ISMS Software) : isms.online
+Verinice ISMS : github.com/SerNet/verinice
+
+Agile Manifesto : agilemanifesto.org
+Martin Fowler blog : martinfowler.com
+Joel Spolsky about leaky abstractions : joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions
+OWASP ASVS standard : github.com/OWASP/ASVS
+Event Sourcing by Martin Fowler : martinfowler.com/eaaDev/EventSourcing.html
+CQRS by Martin Fowler : martinfowler.com/bliki/CQRS.html
+Reactive Manifesto : reactivemanifesto.org
+
+Jesse Schell "The Art of Game Design" : amazon.com/Art-Game-Design-Lenses-Third/dp/1138632058
+Martin Fowler "Refactoring" : martinfowler.com/books/refactoring.html
+Rober Martin "Clean Code" : amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882
+Steven C. McConnell "Code Complete" : amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670
+PMI PMBOK : pmi.org/pmbok-guide-standards 
+CSPs Gartner Review : gartner.com/reviews/market/content-services-platforms
