@@ -43,10 +43,3 @@ Any incomplete documents should be created in dedicated branchs. Main branch sho
 ## Sertification & Audit
 You can use MGPPQS standards for commercial purpose as sertification, audit, consultancy and other. 
 Authors are not responsible for any commerical damage or risks, MGPPQS standards are only advisory in nature.
-
-## Community
-Gitter Main Chat (Standards Form & Content)
-[![Join the chat at https://gitter.im/mgppqs/community](https://badges.gitter.im/mgppqs/community.svg)](https://gitter.im/mgppqs/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-Gitter Russian Localization Chat
-[![Join the chat at https://gitter.im/mgppqs/russian](https://badges.gitter.im/mgppqs/russian.svg)](https://gitter.im/mgppqs/russian?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
